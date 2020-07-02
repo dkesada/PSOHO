@@ -1,0 +1,22 @@
+Package: psoho
+Type: Package
+Title: Particle Swarm Optimization Higher-Order Dynamic Bayesian Network Structure Learning
+Version: 0.0.0.9001
+Date: 2020-07-01
+Author: David Quesada
+Maintainer: David Quesada <dkesada@gmail.com>
+Description: This package implements the particle swarm optimization structure 
+  learning algorithm for higher-order dynamic Bayesian networks from Santos and 
+  Maciel <doi:10.1109/BRC.2014.6880957>. It will start off as an independent module
+  and most likely will be incorporated into the 'dbnR' package.
+License: MIT + file LICENSE
+Imports: Rcpp (>= 1.0.4),
+  bnlearn (>= 4.5),
+  dbnR (>= 0.4.5),
+  R6 (>= 2.4.1)
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.1.0
+Suggests: 
+    testthat
+Roxygen: list(r6 = FALSE)
