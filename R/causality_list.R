@@ -8,9 +8,24 @@ Causlist <- R6::R6Class("causlist",
     #' Constructor of the 'causlist' class
     #' @param net dbn or dbn.fit object defining the network.
     #' @param size Number of timeslices of the DBN
+    #' @param nodes A list with the names of the nodes in an order. 
+    #' If its not null, a random causlist will be generated for those nodes.
     #' @return A new 'causlist' object
-    initialize = function(net, size){
-      private$size <- size
+    initialize = function(net, size, nodes = NULL){
+      if(is.null(nodes)){
+        #initial_dbn_check(obj) --ICO-Merge
+        initial_dbn_to_causlist_check(net)
+        #initial_size_check(size) --ICO-Merge
+        
+        private$size <- size
+        private$ordering <- private$dbn_ordering(net)
+        private$causal_units <- private$cl_translate(net)
+      }
+      else{
+        #initial_nodes_check(nodes)
+        
+        # TODO
+      }
     }
     ),
   
@@ -23,6 +38,19 @@ Causlist <- R6::R6Class("causlist",
     ordering = NULL,
     
     #' @description 
+    #' Return the static node ordering
+    #' 
+    #' This function takes as input a dbn and return the node ordering of the
+    #' variables inside a timeslice. This ordering is needed to understand a
+    #' causal list.
+    #' @param net a dbn or dbn.fit object
+    #' @return the ordering of the nodes in t_0
+    #' @export
+    dbn_ordering = function(net){
+      return(grep("t_0", names(net$nodes), value = TRUE))
+    }
+    
+    #' @description 
     #' Translate a DBN into a causality list
     #' 
     #' This function takes as input a network from a DBN and transforms the 
@@ -32,10 +60,9 @@ Causlist <- R6::R6Class("causlist",
     #' @return a causlist object
     #' @export
     cl_translate = function(net){
-      no_interslice_check(net)
       
-      # Check valid network
-      # Translate
+      # TODO
+      
     },
     
     #' @description 
@@ -46,8 +73,8 @@ Causlist <- R6::R6Class("causlist",
     #' @return a dbn object
     #' @export
     bn_translate = function(caus){
-      initial_causlist_check(caus)
-    }
+      # TODO
+    },
     
   )
 )
