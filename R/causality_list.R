@@ -19,23 +19,35 @@ Causlist <- R6::R6Class("Causlist",
         
         private$size <- size
         private$ordering <- private$dbn_ordering(net)
-        private$causal_units <- private$cl_translate(net)
+        private$cl_translate(net)
       }
       else{
         #initial_nodes_check(nodes)
         
         # TODO
       }
-    }
+    },
+    
+    #' @description
+    #' Getter of causality_list
+    #' @return the causality list
+    get_causality_list = function(){return(private$causality_list)},
+    
+    #' @description
+    #' Getter of counters
+    #' @return the counters numeric matrix
+    get_counters = function(){return(private$counters)}
     ),
   
   private = list(
     #' @field causal_units List of causal units defining the structure
-    causal_units = NULL,
+    causality_list = NULL,
     #' @field size Size of the DBN
     size = NULL,
     #' @field ordering String vector defining the order of the nodes in a timeslice
     ordering = NULL,
+    #' @field number of elements in each causal unit
+    counters = NULL,
     
     #' @description 
     #' Return the static node ordering
@@ -60,11 +72,10 @@ Causlist <- R6::R6Class("Causlist",
     #' @return a causlist object
     #' @export
     cl_translate = function(net){
-      # For each timeslice, we see the parents of each node in order
-      #for(i in 1:private$size)
-      print(create_causlist_cpp(net$nodes, private$size, private$ordering))
-      
-      # TODO
+      res <- create_causlist_cpp(net$nodes, private$size, private$ordering)
+      private$causality_list <- res[[1]]
+      private$counters <- res[[2]]
+      rm(res)
     },
     
     #' @description 
