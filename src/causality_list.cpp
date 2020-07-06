@@ -69,6 +69,21 @@ List create_causlist_cpp(Rcpp::List &net, unsigned int size, StringVector &order
   return res;
 }
 
+// Return all the nodes given the initial nodes and the size of the DBN
+// [[Rcpp::export]]
+Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector &nodes, unsigned int size){
+  Rcpp::StringVector res (nodes.size() * size);
+  std::string new_name;
+  
+  for(unsigned int i = 0; i < size; i++){
+    for(unsigned int j = 0; j < nodes.size(); j++){
+      new_name = nodes[j];
+      res[i*3+j] = new_name + "_t_" + std::to_string(size-1-i); // Random network generation works better with t_0 at the end 
+    }
+  }
+  
+  return res;
+}
 
 
 

@@ -18,9 +18,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rename_nodes_cpp
+Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector& nodes, unsigned int size);
+RcppExport SEXP _psoho_rename_nodes_cpp(SEXP nodesSEXP, SEXP sizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::StringVector& >::type nodes(nodesSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type size(sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(rename_nodes_cpp(nodes, size));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_psoho_create_causlist_cpp", (DL_FUNC) &_psoho_create_causlist_cpp, 3},
+    {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
     {NULL, NULL, 0}
 };
 

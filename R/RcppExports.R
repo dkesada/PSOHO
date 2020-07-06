@@ -11,3 +11,7 @@ create_causlist_cpp <- function(net, size, ordering) {
     .Call('_psoho_create_causlist_cpp', PACKAGE = 'psoho', net, size, ordering)
 }
 
+rename_nodes_cpp <- function(nodes, size) {
+    .Call('_psoho_rename_nodes_cpp', PACKAGE = 'psoho', nodes, size)
+}
+
