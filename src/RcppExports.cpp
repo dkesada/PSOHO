@@ -5,19 +5,22 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _psoho_rcpp_hello_world() {
+// create_causlist_cpp
+List create_causlist_cpp(Rcpp::List& net, unsigned int size, StringVector& ordering);
+RcppExport SEXP _psoho_create_causlist_cpp(SEXP netSEXP, SEXP sizeSEXP, SEXP orderingSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    Rcpp::traits::input_parameter< Rcpp::List& >::type net(netSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< StringVector& >::type ordering(orderingSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_causlist_cpp(net, size, ordering));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_psoho_rcpp_hello_world", (DL_FUNC) &_psoho_rcpp_hello_world, 0},
+    {"_psoho_create_causlist_cpp", (DL_FUNC) &_psoho_create_causlist_cpp, 3},
     {NULL, NULL, 0}
 };
 
