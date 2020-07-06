@@ -63,6 +63,8 @@ Causlist <- R6::R6Class("Causlist",
       # For each timeslice, we see the parents of each node in order
       #for(i in 1:private$size)
       print(create_causlist_cpp(net$nodes, private$size, private$ordering))
+      
+      # TODO
     },
     
     #' @description 
