@@ -1,3 +1,5 @@
+# I will leave this checks outside the R6 object in order to be consistent with the 'dbnR' package style in case of merging
+
 is_causlist <- function(obj){
   return(inherits(obj, "causlist"))
 }
