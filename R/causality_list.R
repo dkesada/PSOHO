@@ -65,15 +65,15 @@ Causlist <- R6::R6Class("Causlist",
     ),
   
   private = list(
-    #' @field causal_units List of causal units defining the structure
+    #' @field cl List of causal units defining the structure
     cl = NULL,
     #' @field size Size of the DBN
     size = NULL,
     #' @field ordering String vector defining the order of the nodes in a timeslice
     ordering = NULL,
-    #' @field number of elements in each causal unit
+    #' @field counters Number of elements in each causal unit
     counters = NULL,
-    #' @field nodes the names of the nodes in the network
+    #' @field nodes Names of the nodes in the network
     nodes = NULL,
     
     #' @description 
