@@ -2,7 +2,10 @@
 using namespace Rcpp;
 #include "include/causality_list.h"
 
-// Return the time slice of a node
+//' Return the time slice of a node
+//' 
+//' @param node a string with the name of the node
+//' @return an integer with the time slice that the node belongs to
 int find_index(std::string node){
   std::smatch m;
   int res;
@@ -13,8 +16,13 @@ int find_index(std::string node){
   return res;
 }
 
-// Insert a node in the correspondent causal unit. Keeps record of inserted
-// elements in each causal unit
+//' Insert a node in the correspondent causal unit. Keeps record of inserted
+//' elements in each causal unit
+//' 
+//' @param cl a causality list
+//' @param node the node to insert
+//' @param counters the number of elements in each causal unit of the causality list
+//' @param i the causal unit in which to insert. Corresponds with a column in the counters
 void insert_node_cl(Rcpp::List &cl, std::string node, Rcpp::NumericMatrix &counters, unsigned int i){
   int idx = find_index(node);
   Rcpp::List slice = cl[idx-1];
@@ -69,7 +77,12 @@ List create_causlist_cpp(Rcpp::List &net, unsigned int size, StringVector &order
   return res;
 }
 
-// Return all the nodes given the initial nodes and the size of the DBN
+//' Return a list of nodes with the time slice appended up to the desired size
+//' of the network
+//' 
+//' @param nodes a list with the names of the nodes in the network
+//' @param size the size of the DBN
+//' @return a list with the renamed nodes in each timeslice
 // [[Rcpp::export]]
 Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector &nodes, unsigned int size){
   Rcpp::StringVector res (nodes.size() * size);

@@ -84,13 +84,15 @@ Causlist <- R6::R6Class("Causlist",
     },
     
     #' @description 
-    #' Translate a causality list into a DBN network
+    #' Translate the causality list into a DBN network
     #' 
-    #' This function takes as input a causality list and transforms it into a DBN.
-    #' @param caus a causlist object
+    #' Uses this object private causality list and transforms it into a DBN.
     #' @return a dbn object
-    bn_translate = function(caus){
+    bn_translate = function(){
+      n_arcs = sum(private$counters)
+      
       # TODO
+      
     },
     
     #' @description 
