@@ -6,10 +6,10 @@ Causlist <- R6::R6Class("Causlist",
   public = list(
     #' @description 
     #' Constructor of the 'causlist' class
-    #' @param net dbn or dbn.fit object defining the network.
+    #' @param net dbn or dbn.fit object defining the network
     #' @param size Number of timeslices of the DBN
-    #' @param nodes A list with the names of the nodes in an order. 
-    #' If its not null, a random causlist will be generated for those nodes.
+    #' @param nodes A list with the names of the nodes in an order 
+    #' If its not null, a random causlist will be generated for those nodes
     #' @return A new 'causlist' object
     initialize = function(net, size, nodes = NULL){
       #initial_size_check(size) --ICO-Merge
@@ -93,6 +93,14 @@ Causlist <- R6::R6Class("Causlist",
       # TODO
     },
     
+    #' @description 
+    #' Generates a random DBN valid for causality list translation
+    #' 
+    #' This function takes as input a list with the names of the nodes and the
+    #' desired size of the network and returns a random DBN structure.
+    #' @param nodes a character vector with the names of the nodes in the net
+    #' @param size the desired size of the DBN
+    #' @return a random dbn structure
     generate_random_network = function(nodes, size){
       nodes_t_0 <- unlist(lapply(nodes, function(x){paste0(x, "_t_0")}))
       new_nodes <- rename_nodes_cpp(nodes, size)
@@ -100,13 +108,22 @@ Causlist <- R6::R6Class("Causlist",
       net <- bnlearn::random.graph(new_nodes)
       net <- private$prune_invalid_arcs(net, nodes_t_0)
       
+      return(net)
     },
     
+    #' @description 
+    #' Fixes a DBN structure to make it suitable for causality list translation
+    #' 
+    #' This function takes as input a DBN structure and removes the 
+    #' intra-timeslice arcs and the arcs that end in a node not in t_0.
+    #' @param net the DBN structure
+    #' @param nodes_t_0 a vector with the names of the nodes in t_0
+    #' @return the fixed network
     prune_invalid_arcs = function(net, nodes_t_0){
       keep_rows <- !(net$arcs[,1] %in% nodes_t_0)
       keep_rows <- keep_rows & (net$arcs[,2] %in% nodes_t_0)
       keep_rows <- net$arcs[keep_rows,]
-      arcs(net) <- keep_rows
+      bnlearn::arcs(net) <- keep_rows
       
       return(net)
     }

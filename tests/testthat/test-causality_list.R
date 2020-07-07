@@ -20,19 +20,17 @@ test_that("random network generation works", {
   ordering <- c("A", "B", "C")
   size <- 3
   
-  # TODO a seeded test.
-  
+  set.seed(51)
   cl <- Causlist$new(NULL, size, ordering)
   
-  
   res <- list(
-    list(c("A_t_1", "C_t_1", ""),
-         c("A_t_1", "B_t_1", ""),
+    list(c("A_t_1", "", ""),
+         c("B_t_1", "", ""),
          c("", "", "")),
     list(c("B_t_2", "", ""),
-         c("", "", ""),
+         c("C_t_2", "", ""),
          c("B_t_2", "C_t_2", ""))
   )
   expect_equal(cl$get_causality_list(), res)
-  expect_equal(cl$get_counters(), matrix(c(2,1,2,0,0,2), nrow = 2, ncol = 3))
+  expect_equal(cl$get_counters(), matrix(c(1,1,1,1,0,2), nrow = 2, ncol = 3))
 })

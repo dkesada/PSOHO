@@ -3,44 +3,126 @@
 \name{Causlist}
 \alias{Causlist}
 \title{R6 class that defines DBNs as causality lists}
-\arguments{
-\item{size}{Number of timeslices of the DBN}
-
-\item{net}{a dbn object}
-
-\item{caus}{a causlist object}
-}
-\value{
-A new 'causlist' object
-
-a causlist object
-
-a dbn object
-}
 \description{
-Constructor of the 'causlist' class
+R6 class that defines DBNs as causality lists
 
-Translate a DBN into a causality list
-
-This function takes as input a network from a DBN and transforms the 
-structure into a causality list if it is a valid DBN. Valid DBNs have only
-inter-timeslice edges and only allow variables in t_0 to have parents.
-
-Translate a causality list into a DBN network
-
-This function takes as input a causality list and transforms it into a DBN.
+R6 class that defines DBNs as causality lists
 }
 \details{
 A causality list has a list with causal units, a size representing the
 Markovian order of the network and a specific node ordering.
 }
-\section{Fields}{
-
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{causal_units}}{List of causal units defining the structure}
 
 \item{\code{size}}{Size of the DBN}
 
 \item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
-}}
 
+\item{\code{number}}{of elements in each causal unit}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{causal_units}}{List of causal units defining the structure}
+
+\item{\code{size}}{Size of the DBN}
+
+\item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
+
+\item{\code{number}}{of elements in each causal unit}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Causlist$new()}}
+\item \href{#method-get_causality_list}{\code{Causlist$get_causality_list()}}
+\item \href{#method-get_counters}{\code{Causlist$get_counters()}}
+\item \href{#method-debug}{\code{Causlist$debug()}}
+\item \href{#method-clone}{\code{Causlist$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Constructor of the 'causlist' class
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Causlist$new(net, size, nodes = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{net}}{dbn or dbn.fit object defining the network}
+
+\item{\code{size}}{Number of timeslices of the DBN}
+
+\item{\code{nodes}}{A list with the names of the nodes in an order 
+If its not null, a random causlist will be generated for those nodes}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new 'causlist' object
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_causality_list"></a>}}
+\if{latex}{\out{\hypertarget{method-get_causality_list}{}}}
+\subsection{Method \code{get_causality_list()}}{
+Getter of causality_list
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Causlist$get_causality_list()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the causality list
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_counters"></a>}}
+\if{latex}{\out{\hypertarget{method-get_counters}{}}}
+\subsection{Method \code{get_counters()}}{
+Getter of counters
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Causlist$get_counters()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the counters numeric matrix
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-debug"></a>}}
+\if{latex}{\out{\hypertarget{method-debug}{}}}
+\subsection{Method \code{debug()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Causlist$debug(nodes, size)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Causlist$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}
