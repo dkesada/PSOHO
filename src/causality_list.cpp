@@ -2,10 +2,10 @@
 using namespace Rcpp;
 #include "include/causality_list.h"
 
-//' Return the time slice of a node
-//' 
-//' @param node a string with the name of the node
-//' @return an integer with the time slice that the node belongs to
+// Return the time slice of a node
+// 
+// @param node a string with the name of the node
+// @return an integer with the time slice that the node belongs to
 int find_index(std::string node){
   std::smatch m;
   int res;
@@ -16,13 +16,13 @@ int find_index(std::string node){
   return res;
 }
 
-//' Insert a node in the correspondent causal unit. Keeps record of inserted
-//' elements in each causal unit
-//' 
-//' @param cl a causality list
-//' @param node the node to insert
-//' @param counters the number of elements in each causal unit of the causality list
-//' @param i the causal unit in which to insert. Corresponds with a column in the counters
+// Insert a node in the correspondent causal unit. Keeps record of inserted
+// elements in each causal unit
+// 
+// @param cl a causality list
+// @param node the node to insert
+// @param counters the number of elements in each causal unit of the causality list
+// @param i the causal unit in which to insert. Corresponds with a column in the counters
 void insert_node_cl(Rcpp::List &cl, std::string node, Rcpp::NumericMatrix &counters, unsigned int i){
   int idx = find_index(node);
   Rcpp::List slice = cl[idx-1];
@@ -98,5 +98,33 @@ Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector &nodes, unsigned int size
   return res;
 }
 
-
+//' Create a matrix with the arcs defined in a causlist object
+//' 
+//' @param cl a causal list
+//' @param ordering a list with the order of the variables in t_0
+//' @param counters the number of elements in each causal unit of the causality list
+//' @param rows number of arcs in the network
+//' @return a list with a CharacterVector and a NumericVector
+// [[Rcpp::export]]
+Rcpp::CharacterMatrix cl_to_arc_matrix_cpp(Rcpp::List &cl, Rcpp::CharacterVector &ordering, 
+                                       Rcpp::NumericMatrix &counters, unsigned int rows){
+  Rcpp::StringMatrix res (rows, 2);
+  unsigned int res_row = 0;
+  Rcpp::List slice;
+  Rcpp::StringVector cu;
+  
+  for(unsigned int i = 0; i < cl.size(); i++){
+    slice = cl[i];
+    for(unsigned int j = 0; j < ordering.size(); j++){
+      cu = slice[j];
+      for(unsigned int k = 0; k < counters(i, j); k++){
+        res(res_row, 0) = cu[k];
+        res(res_row, 1) = ordering[j];
+        res_row += 1;
+      }
+    }
+  }
+  
+  return res;
+}
 

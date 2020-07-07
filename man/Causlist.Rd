@@ -19,11 +19,11 @@ the causality list
 
 the counters numeric matrix
 
+a dbn object
+
 the ordering of the nodes in t_0
 
 a causlist object
-
-a dbn object
 
 a random dbn structure
 
@@ -36,6 +36,10 @@ Getter of causality_list
 
 Getter of counters
 
+Translate the causality list into a DBN network
+
+Uses this object private causality list and transforms it into a DBN.
+
 Return the static node ordering
 
 This function takes as input a dbn and return the node ordering of the
@@ -47,10 +51,6 @@ Translate a DBN into a causality list
 This function takes as input a network from a DBN and transforms the 
 structure into a causality list if it is a valid DBN. Valid DBNs have only
 inter-timeslice edges and only allow variables in t_0 to have parents.
-
-Translate the causality list into a DBN network
-
-Uses this object private causality list and transforms it into a DBN.
 
 Generates a random DBN valid for causality list translation
 
@@ -76,5 +76,7 @@ Markovian order of the network and a specific node ordering.
 \item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
 
 \item{\code{number}}{of elements in each causal unit}
+
+\item{\code{nodes}}{the names of the nodes in the network}
 }}
 

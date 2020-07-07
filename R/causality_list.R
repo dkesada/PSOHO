@@ -2,6 +2,7 @@
 #' 
 #' A causality list has a list with causal units, a size representing the
 #' Markovian order of the network and a specific node ordering.
+#' @export
 Causlist <- R6::R6Class("Causlist", 
   public = list(
     #' @description 
@@ -23,6 +24,7 @@ Causlist <- R6::R6Class("Causlist",
         initial_dbn_to_causlist_check(net)
       }
       
+      private$nodes <- names(net$nodes)
       private$size <- size
       private$ordering <- private$dbn_ordering(net)
       private$cl_translate(net)
@@ -31,13 +33,29 @@ Causlist <- R6::R6Class("Causlist",
     #' @description
     #' Getter of causality_list
     #' @return the causality list
-    get_causality_list = function(){return(private$causality_list)},
+    get_causality_list = function(){return(private$cl)},
     
     #' @description
     #' Getter of counters
     #' @return the counters numeric matrix
     get_counters = function(){return(private$counters)},
     
+    #' @description 
+    #' Translate the causality list into a DBN network
+    #' 
+    #' Uses this object private causality list and transforms it into a DBN.
+    #' @return a dbn object
+    bn_translate = function(){
+      n_arcs <- sum(private$counters)
+      arc_mat <- cl_to_arc_matrix_cpp(private$cl, private$ordering, private$counters, n_arcs)
+      
+      net <- bnlearn::empty.graph(private$nodes)
+      bnlearn::arcs(net) <- arc_mat
+      
+      return(net)
+    },
+    
+    # Dummy debug function for cpp functions. Remove on release.
     debug = function(nodes, size){
       
       print(rename_nodes_cpp(nodes, size))
@@ -48,13 +66,15 @@ Causlist <- R6::R6Class("Causlist",
   
   private = list(
     #' @field causal_units List of causal units defining the structure
-    causality_list = NULL,
+    cl = NULL,
     #' @field size Size of the DBN
     size = NULL,
     #' @field ordering String vector defining the order of the nodes in a timeslice
     ordering = NULL,
     #' @field number of elements in each causal unit
     counters = NULL,
+    #' @field nodes the names of the nodes in the network
+    nodes = NULL,
     
     #' @description 
     #' Return the static node ordering
@@ -78,21 +98,9 @@ Causlist <- R6::R6Class("Causlist",
     #' @return a causlist object
     cl_translate = function(net){
       res <- create_causlist_cpp(net$nodes, private$size, private$ordering)
-      private$causality_list <- res[[1]]
+      private$cl <- res[[1]]
       private$counters <- res[[2]]
       rm(res)
-    },
-    
-    #' @description 
-    #' Translate the causality list into a DBN network
-    #' 
-    #' Uses this object private causality list and transforms it into a DBN.
-    #' @return a dbn object
-    bn_translate = function(){
-      n_arcs = sum(private$counters)
-      
-      # TODO
-      
     },
     
     #' @description 

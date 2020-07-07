@@ -30,10 +30,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cl_to_arc_matrix_cpp
+Rcpp::CharacterMatrix cl_to_arc_matrix_cpp(Rcpp::List& cl, Rcpp::CharacterVector& ordering, Rcpp::NumericMatrix& counters, unsigned int rows);
+RcppExport SEXP _psoho_cl_to_arc_matrix_cpp(SEXP clSEXP, SEXP orderingSEXP, SEXP countersSEXP, SEXP rowsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List& >::type cl(clSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector& >::type ordering(orderingSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix& >::type counters(countersSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type rows(rowsSEXP);
+    rcpp_result_gen = Rcpp::wrap(cl_to_arc_matrix_cpp(cl, ordering, counters, rows));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_psoho_create_causlist_cpp", (DL_FUNC) &_psoho_create_causlist_cpp, 3},
     {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
+    {"_psoho_cl_to_arc_matrix_cpp", (DL_FUNC) &_psoho_cl_to_arc_matrix_cpp, 4},
     {NULL, NULL, 0}
 };
 
