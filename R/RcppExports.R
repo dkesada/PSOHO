@@ -11,6 +11,17 @@ create_causlist_cpp <- function(net, size, ordering) {
     .Call('_psoho_create_causlist_cpp', PACKAGE = 'psoho', net, size, ordering)
 }
 
+#' Create a matrix with the arcs defined in a causlist object
+#' 
+#' @param cl a causal list
+#' @param ordering a list with the order of the variables in t_0
+#' @param counters the number of elements in each causal unit of the causality list
+#' @param rows number of arcs in the network
+#' @return a list with a CharacterVector and a NumericVector
+cl_to_arc_matrix_cpp <- function(cl, ordering, counters, rows) {
+    .Call('_psoho_cl_to_arc_matrix_cpp', PACKAGE = 'psoho', cl, ordering, counters, rows)
+}
+
 #' Return a list of nodes with the time slice appended up to the desired size
 #' of the network
 #' 
@@ -21,14 +32,12 @@ rename_nodes_cpp <- function(nodes, size) {
     .Call('_psoho_rename_nodes_cpp', PACKAGE = 'psoho', nodes, size)
 }
 
-#' Create a matrix with the arcs defined in a causlist object
+#' Create a velocity list and initialize it
 #' 
-#' @param cl a causal list
 #' @param ordering a list with the order of the variables in t_0
-#' @param counters the number of elements in each causal unit of the causality list
-#' @param rows number of arcs in the network
-#' @return a list with a CharacterVector and a NumericVector
-cl_to_arc_matrix_cpp <- function(cl, ordering, counters, rows) {
-    .Call('_psoho_cl_to_arc_matrix_cpp', PACKAGE = 'psoho', cl, ordering, counters, rows)
+#' @param size the size of the DBN
+#' @return a velocity list
+initialize_vl_cpp <- function(ordering, size) {
+    .Call('_psoho_initialize_vl_cpp', PACKAGE = 'psoho', ordering, size)
 }
 
