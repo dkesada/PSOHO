@@ -42,14 +42,15 @@ int find_index(std::string node){
 // @return an integer with the time slice that the node belongs to
 Rcpp::StringVector rename_slices(Rcpp::StringVector nodes, unsigned int slice){
   std::smatch m;
-  std::string res;
+  std::string new_name;
+  Rcpp::StringVector res (nodes.size());
   
   for(unsigned int i = 0; i < nodes.size(); i++){
-    res = nodes[i];
-    std::regex_match(res, m, std::regex("(.+_t_)([0-9]+)"));
-    res = m[1];
-    res = res + std::to_string(slice);
-    nodes[i] = res;
+    new_name = nodes[i];
+    std::regex_match(new_name, m, std::regex("(.+_t_)([0-9]+)"));
+    new_name = m[1];
+    new_name = new_name + std::to_string(slice);
+    res[i] = new_name;
   }
   
   return(res);

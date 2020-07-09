@@ -69,14 +69,14 @@ Markovian order of the network and a specific node ordering.
 \section{Fields}{
 
 \describe{
-\item{\code{causal_units}}{List of causal units defining the structure}
+\item{\code{cl}}{List of causal units defining the structure}
 
 \item{\code{size}}{Size of the DBN}
 
 \item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
 
-\item{\code{number}}{of elements in each causal unit}
+\item{\code{counters}}{Number of elements in each causal unit}
 
-\item{\code{nodes}}{the names of the nodes in the network}
+\item{\code{nodes}}{Names of the nodes in the network}
 }}
 

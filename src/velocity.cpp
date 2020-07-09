@@ -10,27 +10,20 @@ Rcpp::List initialize_vl_cpp(StringVector &ordering, unsigned int size) {
   Rcpp::List res (size - 1);
   Rcpp::StringVector new_names;
   
-  // TODO
-  
-  // Rcpp::List aux;
-  
-  // Rcpp::List cl(size - 1);
-  // std::string node;
-  // Rcpp::StringVector parents;
-  // Rcpp::NumericMatrix counters(size-1, ordering.size());
-  // Rcpp::List res(2);
-  // 
-  // 
-  // Initialization of the causal list
-  // for(unsigned int i = 0; i < size - 1; i++){
-  //   Rcpp::List caus_list(ordering.size());
-  //   new_names = rename_slices(ordering, i + 1);
-  //   for(unsigned int j = 0; j < ordering.size(); j++){
-  //     Rcpp::StringVector caus_unit(ordering.size());
-  //     caus_list[j] = caus_unit;
-  //   }
-  //   cl[i] = caus_list;
-  // }
+  // Initialization of the velocity
+  for(unsigned int i = 0; i < size - 1; i++){
+    Rcpp::List vel_list(ordering.size());
+    new_names = rename_slices(ordering, i + 1);
+    for(unsigned int j = 0; j < ordering.size(); j++){
+      Rcpp::List pair (2);
+      Rcpp::NumericVector velocity (ordering.size());
+      
+      pair[0] = new_names;
+      pair[1] = velocity;
+      vel_list[j] = pair;
+    }
+    res[i] = vel_list;
+  }
   
   return res;
 }

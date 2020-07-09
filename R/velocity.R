@@ -20,7 +20,10 @@ Velocity <- R6::R6Class("Velocity",
       private$size <- size
       private$ordering <- ordering
       private$vl <- initialize_vl_cpp(ordering, size)
-    }
+      private$abs_op <- 0
+    },
+    
+    get_vl = function(){return(private$vl)}
   ),
   private = list(
     #' @field vl List of causal units defining the velocity
@@ -28,6 +31,8 @@ Velocity <- R6::R6Class("Velocity",
     #' @field size Size of the DBN
     size = NULL,
     #' @field ordering String vector defining the order of the nodes in a timeslice
-    ordering = NULL
+    ordering = NULL,
+    #' @field abs_op Total number of operations 1 or -1 in the velocity
+    abs_op = NULL
   )
 )
