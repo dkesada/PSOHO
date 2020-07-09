@@ -56,4 +56,22 @@ Rcpp::StringVector rename_slices(Rcpp::StringVector nodes, unsigned int slice){
   return(res);
 }
 
-
+// Generate a random vector of n {-1,0,1} directions
+// 
+// @param probs the weights of each value in the random generation
+// @param size the number of random directions to generate
+// @return a NumericVector with the random directions
+Rcpp::NumericVector random_directions(Rcpp::NumericVector probs, unsigned int size){
+  Rcpp::NumericVector res (size);
+  static std::random_device rd;
+  static std::mt19937 gen(rd());
+  std::discrete_distribution<int> distribution (probs.begin(), probs.end());
+  int base[3] = {-1,0,1};
+  
+  for(unsigned int i = 0; i < size; i++){
+    int dir = distribution(gen);
+    res[i] = base[dir];
+  }
+  
+  return(res);
+}

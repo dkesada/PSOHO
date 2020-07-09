@@ -56,12 +56,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// randomize_vl_cpp
+Rcpp::List randomize_vl_cpp(Rcpp::List& vl, NumericVector& probs);
+RcppExport SEXP _psoho_randomize_vl_cpp(SEXP vlSEXP, SEXP probsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List& >::type vl(vlSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type probs(probsSEXP);
+    rcpp_result_gen = Rcpp::wrap(randomize_vl_cpp(vl, probs));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_psoho_create_causlist_cpp", (DL_FUNC) &_psoho_create_causlist_cpp, 3},
     {"_psoho_cl_to_arc_matrix_cpp", (DL_FUNC) &_psoho_cl_to_arc_matrix_cpp, 4},
     {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
     {"_psoho_initialize_vl_cpp", (DL_FUNC) &_psoho_initialize_vl_cpp, 2},
+    {"_psoho_randomize_vl_cpp", (DL_FUNC) &_psoho_randomize_vl_cpp, 2},
     {NULL, NULL, 0}
 };
 

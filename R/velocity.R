@@ -23,7 +23,14 @@ Velocity <- R6::R6Class("Velocity",
       private$abs_op <- 0
     },
     
-    get_vl = function(){return(private$vl)}
+    get_vl = function(){return(private$vl)},
+    
+    randomize_velocity = function(probs){
+      numeric_prob_vector_check(probs)
+      
+      private$vl = randomize_vl_cpp(private$vl, probs)
+    }
+    
   ),
   private = list(
     #' @field vl List of causal units defining the velocity

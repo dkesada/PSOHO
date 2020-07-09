@@ -29,3 +29,11 @@ initial_dbn_to_causlist_check <- function(obj){
   no_parents_check(obj)
   no_intraslice_check(obj)
 }
+
+numeric_prob_vector_check <- function(obj){
+  if(!is.numeric(obj))
+    stop(sprintf("%s has to be numeric.", deparse(substitute(obj))))
+  if(length(obj) != 3)
+    stop(sprintf("%s has to of length 3.", deparse(substitute(obj))))
+  # Not checking for positive numbers. Negative ones are also valid, although kind of useless.
+}

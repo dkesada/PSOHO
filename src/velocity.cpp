@@ -28,3 +28,29 @@ Rcpp::List initialize_vl_cpp(StringVector &ordering, unsigned int size) {
   return res;
 }
 
+//' Randomize a velocity with the given probabilities
+//' 
+//' @param vl a velocity list
+//' @param probs the probabilities of each value in the set {-1,0,1}
+//' @return a velocity list with randomized values
+// [[Rcpp::export]]
+Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs) {
+  Rcpp::List slice;
+  Rcpp::List velocity;
+  Rcpp::NumericVector directions;
+  Rcpp::List cu;
+  Rcpp::List pair;
+  
+  
+  // Initialization of the velocity
+  for(unsigned int i = 0; i < vl.size(); i++){
+    slice = vl[i];
+    for(unsigned int j = 0; j < slice.size(); j++){
+      pair = slice[j];
+      directions = random_directions(probs, slice.size());
+      pair[1] = directions;
+    }
+  }
+  
+  return vl;
+}

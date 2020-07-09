@@ -41,3 +41,12 @@ initialize_vl_cpp <- function(ordering, size) {
     .Call('_psoho_initialize_vl_cpp', PACKAGE = 'psoho', ordering, size)
 }
 
+#' Randomize a velocity with the given probabilities
+#' 
+#' @param vl a velocity list
+#' @param probs the probabilities of each value in the set {-1,0,1}
+#' @return a velocity list with randomized values
+randomize_vl_cpp <- function(vl, probs) {
+    .Call('_psoho_randomize_vl_cpp', PACKAGE = 'psoho', vl, probs)
+}
+

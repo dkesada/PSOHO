@@ -4,14 +4,13 @@
 using namespace Rcpp;
 #endif
 
-#ifndef regex_head
-#define regex_head
 #include <regex>
-#endif
+#include <random>
 
 #ifndef utils_op
 #define utils_op
 int find_index(std::string node);
 Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector &nodes, unsigned int size);
 Rcpp::StringVector rename_slices(Rcpp::StringVector nodes, unsigned int size);
+Rcpp::NumericVector random_directions(Rcpp::NumericVector probs, unsigned int size);
 #endif
