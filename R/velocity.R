@@ -25,10 +25,13 @@ Velocity <- R6::R6Class("Velocity",
     
     get_vl = function(){return(private$vl)},
     
+    get_abs_op = function(){return(private$abs_op)},
+    
     randomize_velocity = function(probs){
       numeric_prob_vector_check(probs)
-      
-      private$vl = randomize_vl_cpp(private$vl, probs)
+      directions = randomize_vl_cpp(private$vl, probs)
+      private$vl = directions[[1]]
+      private$abs_op = directions[[2]]
     }
     
   ),

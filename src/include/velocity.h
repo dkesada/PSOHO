@@ -9,4 +9,5 @@ using namespace Rcpp;
 #ifndef vl_op
 #define vl_op
 Rcpp::List initialize_vl_cpp(StringVector &ordering, unsigned int size);
+Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs);
 #endif

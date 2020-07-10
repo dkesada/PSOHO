@@ -37,10 +37,11 @@ Rcpp::List initialize_vl_cpp(StringVector &ordering, unsigned int size) {
 Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs) {
   Rcpp::List slice;
   Rcpp::List velocity;
-  Rcpp::NumericVector directions;
+  Rcpp::List directions;
   Rcpp::List cu;
   Rcpp::List pair;
-  
+  unsigned int abs_op = 0;
+  Rcpp::List res (2);
   
   // Initialization of the velocity
   for(unsigned int i = 0; i < vl.size(); i++){
@@ -48,9 +49,13 @@ Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs) {
     for(unsigned int j = 0; j < slice.size(); j++){
       pair = slice[j];
       directions = random_directions(probs, slice.size());
-      pair[1] = directions;
+      pair[1] = directions[0];
+      abs_op += directions[1];
     }
   }
   
-  return vl;
+  res[0] = vl;
+  res[1] = abs_op;
+  
+  return res;
 }
