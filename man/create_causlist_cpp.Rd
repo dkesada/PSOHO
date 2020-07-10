@@ -4,7 +4,7 @@
 \alias{create_causlist_cpp}
 \title{Create a causal list from a DBN. This is the C++ backend of the function.}
 \usage{
-create_causlist_cpp(net, size, ordering)
+create_causlist_cpp(cl, net, size, ordering)
 }
 \arguments{
 \item{net}{a dbn object treated as a list of lists}

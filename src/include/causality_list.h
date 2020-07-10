@@ -8,10 +8,6 @@ using namespace Rcpp;
 
 #ifndef cl_op
 #define cl_op
-int find_index(std::string node);
-void insert_node_cl(Rcpp::List &cl, std::string node, Rcpp::NumericMatrix &counters, unsigned int i);
-Rcpp::List create_causlist_cpp(Rcpp::List &net, unsigned int size, StringVector &ordering);
-Rcpp::CharacterMatrix cl_to_arc_matrix_cpp(Rcpp::List &cl, Rcpp::CharacterVector &ordering, 
-                                           Rcpp::NumericMatrix &counters, unsigned int rows);
+Rcpp::List initialize_cl_cpp(StringVector &ordering, unsigned int size);
+void insert_node_cl(Rcpp::List &cl, std::string node, unsigned int i);
 #endif
-

@@ -6,46 +6,19 @@
 #' was deleted.
 #' @export
 Velocity <- R6::R6Class("Velocity",
+  inherit = Causlist,
   public = list(
-    #' @description 
-    #' Constructor of the 'causlist' class
-    #' @param net dbn or dbn.fit object defining the network
-    #' @param size Number of timeslices of the DBN
-    #' @param nodes A list with the names of the nodes in an order 
-    #' If its not null, a random causlist will be generated for those nodes
-    #' @return A new 'causlist' object
-    initialize = function(ordering, size){
-      #initial_size_check(size) --ICO-Merge
-      
-      private$size <- size
-      private$ordering <- ordering
-      private$vl <- initialize_vl_cpp(ordering, size)
-      private$abs_op <- 0
-    },
-    
-    get_vl = function(){return(private$vl)},
-    
     get_abs_op = function(){return(private$abs_op)},
-    
-    get_ordering = function(){return(private$ordering)},
-    
-    get_size = function(){return(private$size)},
     
     randomize_velocity = function(probs){
       numeric_prob_vector_check(probs)
-      directions = randomize_vl_cpp(private$vl, probs)
-      private$vl = directions[[1]]
+      directions = randomize_vl_cpp(private$cl, probs)
+      private$cl = directions[[1]]
       private$abs_op = directions[[2]]
     }
     
   ),
   private = list(
-    #' @field vl List of causal units defining the velocity
-    vl = NULL,
-    #' @field size Size of the DBN
-    size = NULL,
-    #' @field ordering String vector defining the order of the nodes in a timeslice
-    ordering = NULL,
     #' @field abs_op Total number of operations 1 or -1 in the velocity
     abs_op = NULL
   )
