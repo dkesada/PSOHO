@@ -1,4 +1,5 @@
-test_that("velocity initialization works", {
+# Also covers Causlist initialization
+test_that("velocity initialization works", { 
   ordering <- c("A_t_0", "B_t_0", "C_t_0")
   size <- 3
   
@@ -20,5 +21,5 @@ test_that("velocity initialization works", {
            c(0,0,0)))
   )
   
-  expect_equal(vl$get_vl(), res)
+  expect_equal(vl$get_cl(), res)
 })

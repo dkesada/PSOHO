@@ -3,21 +3,7 @@
 \name{Velocity}
 \alias{Velocity}
 \title{R6 class that defines velocities affecting causality lists in the PSO}
-\arguments{
-\item{net}{dbn or dbn.fit object defining the network}
-
-\item{size}{Number of timeslices of the DBN}
-
-\item{nodes}{A list with the names of the nodes in an order 
-If its not null, a random causlist will be generated for those nodes}
-}
-\value{
-A new 'causlist' object
-}
 \description{
-Constructor of the 'causlist' class
-}
-\details{
 The velocities will be defined as a causality list where each element in
 a causal unit is a pair (v, node) with v being either 0, 1 or -1. 0 means 
 that arc remained the same, 1 means that arc was added and -1 means that arc 
@@ -26,10 +12,6 @@ was deleted.
 \section{Fields}{
 
 \describe{
-\item{\code{vl}}{List of causal units defining the velocity}
-
-\item{\code{size}}{Size of the DBN}
-
-\item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
+\item{\code{abs_op}}{Total number of operations 1 or -1 in the velocity}
 }}
 

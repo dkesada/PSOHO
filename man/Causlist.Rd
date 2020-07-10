@@ -2,81 +2,29 @@
 % Please edit documentation in R/causality_list.R
 \name{Causlist}
 \alias{Causlist}
-\title{R6 class that defines DBNs as causality lists}
+\title{R6 class that defines causal lists in the PSO}
 \arguments{
-\item{nodes}{a character vector with the names of the nodes in the net}
+\item{ordering}{a vector with the names of the nodes in t_0}
 
-\item{size}{the desired size of the DBN}
-
-\item{net}{the DBN structure}
-
-\item{nodes_t_0}{a vector with the names of the nodes in t_0}
+\item{size}{number of timeslices of the DBN}
 }
 \value{
 A new 'causlist' object
-
-the causality list
-
-the counters numeric matrix
-
-a dbn object
-
-the ordering of the nodes in t_0
-
-a causlist object
-
-a random dbn structure
-
-the fixed network
 }
 \description{
-Constructor of the 'causlist' class
-
-Getter of causality_list
-
-Getter of counters
-
-Translate the causality list into a DBN network
-
-Uses this object private causality list and transforms it into a DBN.
-
-Return the static node ordering
-
-This function takes as input a dbn and return the node ordering of the
-variables inside a timeslice. This ordering is needed to understand a
-causal list.
-
-Translate a DBN into a causality list
-
-This function takes as input a network from a DBN and transforms the 
-structure into a causality list if it is a valid DBN. Valid DBNs have only
-inter-timeslice edges and only allow variables in t_0 to have parents.
-
-Generates a random DBN valid for causality list translation
-
-This function takes as input a list with the names of the nodes and the
-desired size of the network and returns a random DBN structure.
-
-Fixes a DBN structure to make it suitable for causality list translation
-
-This function takes as input a DBN structure and removes the 
-intra-timeslice arcs and the arcs that end in a node not in t_0.
+Constructor of the 'Causlist' class
 }
 \details{
-A causality list has a list with causal units, a size representing the
-Markovian order of the network and a specific node ordering.
+The causal lists will be the base of the positions and the velocities
+in the pso part of the algorithm.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{cl}}{List of causal units defining the structure}
+\item{\code{cl}}{List of causal units}
 
 \item{\code{size}}{Size of the DBN}
 
 \item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
-
-\item{\code{counters}}{Number of elements in each causal unit}
-
-\item{\code{nodes}}{Names of the nodes in the network}
 }}
 

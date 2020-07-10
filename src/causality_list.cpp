@@ -1,93 +1,55 @@
 #include "include/causality_list.h"
 
+//' Create a velocity list and initialize it
+//' 
+//' @param ordering a list with the order of the variables in t_0
+//' @param size the size of the DBN
+//' @return a velocity list
+// [[Rcpp::export]]
+Rcpp::List initialize_cl_cpp(StringVector &ordering, unsigned int size) {
+  Rcpp::List res (size - 1);
+  Rcpp::StringVector new_names;
+  
+  // Initialization of the velocity
+  for(unsigned int i = 0; i < size - 1; i++){
+    Rcpp::List vel_list(ordering.size());
+    new_names = rename_slices(ordering, i + 1);
+    for(unsigned int j = 0; j < ordering.size(); j++){
+      Rcpp::List pair (2);
+      Rcpp::NumericVector velocity (ordering.size());
+      
+      pair[0] = new_names;
+      pair[1] = velocity;
+      vel_list[j] = pair;
+    }
+    res[i] = vel_list;
+  }
+  
+  return res;
+}
+
 // Insert a node in the correspondent causal unit. Keeps record of inserted
 // elements in each causal unit
 // 
 // @param cl a causality list
 // @param node the node to insert
-// @param counters the number of elements in each causal unit of the causality list
-// @param i the causal unit in which to insert. Corresponds with a column in the counters
-void insert_node_cl(Rcpp::List &cl, std::string node, Rcpp::NumericMatrix &counters, unsigned int i){
+// @param i the causal unit in which to insert.
+void insert_node_cl(Rcpp::List &cl, std::string node, unsigned int i){
   int idx = find_index(node);
   Rcpp::List slice = cl[idx-1];
-  Rcpp::StringVector cu = slice[i];
-  int pos = counters(idx-1,i);
-  cu[pos] = node;
-  counters(idx-1, i) = pos + 1;
-}
-
-//' Create a causal list from a DBN. This is the C++ backend of the function.
-//' 
-//' @param net a dbn object treated as a list of lists
-//' @param size the size of the DBN
-//' @param ordering a list with the order of the variables in t_0
-//' @return a list with a CharacterVector and a NumericVector
-// [[Rcpp::export]]
-Rcpp::List create_causlist_cpp(Rcpp::List &net, unsigned int size, StringVector &ordering) {
-  Rcpp::List aux;
-  Rcpp::StringVector caus_unit;
-  Rcpp::List cl(size - 1);
-  std::string node;
-  Rcpp::StringVector parents;
-  Rcpp::NumericMatrix counters(size-1, ordering.size());
-  Rcpp::List res(2);
+  Rcpp::List cu = slice[i];
+  int pos = 0;
+  Rcpp::StringVector names = cu[0];
+  std::string str;
+  Rcpp::NumericVector arcs = cu[1];
   
-  
-  // Initialization of the causal list
-  for(unsigned int i = 0; i < size - 1; i++){
-    Rcpp::List caus_list(ordering.size());
-    for(unsigned int j = 0; j < ordering.size(); j++){
-      Rcpp::StringVector caus_unit(ordering.size());
-      caus_list[j] = caus_unit;
-    }
-    cl[i] = caus_list;
-  }
-    
-  // Translation into causal list
-  for(unsigned int i = 0; i < ordering.size(); i++){
-    node = ordering[i];
-    aux = net[node];
-    parents = aux["parents"];
-
-    for(unsigned int j = 0; j < parents.size(); j++){
-      node = parents[j];
-      insert_node_cl(cl, node, counters, i);
-    }
+  str = names[0];
+  while(node.compare(str) != 0 && pos < names.size()){
+    pos++;
+    str = names[pos];
   }
   
-  res[0] = cl;
-  res[1] = counters;
-  
-  return res;
+  arcs[pos] = 1;
 }
 
-//' Create a matrix with the arcs defined in a causlist object
-//' 
-//' @param cl a causal list
-//' @param ordering a list with the order of the variables in t_0
-//' @param counters the number of elements in each causal unit of the causality list
-//' @param rows number of arcs in the network
-//' @return a list with a CharacterVector and a NumericVector
-// [[Rcpp::export]]
-Rcpp::CharacterMatrix cl_to_arc_matrix_cpp(Rcpp::List &cl, Rcpp::CharacterVector &ordering, 
-                                       Rcpp::NumericMatrix &counters, unsigned int rows){
-  Rcpp::StringMatrix res (rows, 2);
-  unsigned int res_row = 0;
-  Rcpp::List slice;
-  Rcpp::StringVector cu;
-  
-  for(unsigned int i = 0; i < cl.size(); i++){
-    slice = cl[i];
-    for(unsigned int j = 0; j < ordering.size(); j++){
-      cu = slice[j];
-      for(unsigned int k = 0; k < counters(i, j); k++){
-        res(res_row, 0) = cu[k];
-        res(res_row, 1) = ordering[j];
-        res_row += 1;
-      }
-    }
-  }
-  
-  return res;
-}
 
