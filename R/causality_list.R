@@ -55,6 +55,17 @@ Causlist <- R6::R6Class("Causlist",
       return(net)
     },
     
+    #' @description 
+    #' Add a velocity to the position
+    #' 
+    #' Given a Velocity object, add it to the current position.
+    #' @param vl a Velocity object
+    add_velocity = function(vl){
+      initial_vel_pos_check(vl, private$size, private$ordering)
+      
+      # TODO
+    },
+    
     # Dummy debug function for cpp functions. Remove on release.
     debug = function(nodes, size){
       
