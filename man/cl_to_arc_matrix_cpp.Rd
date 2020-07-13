@@ -4,14 +4,12 @@
 \alias{cl_to_arc_matrix_cpp}
 \title{Create a matrix with the arcs defined in a causlist object}
 \usage{
-cl_to_arc_matrix_cpp(cl, ordering, counters, rows)
+cl_to_arc_matrix_cpp(cl, ordering, rows)
 }
 \arguments{
 \item{cl}{a causal list}
 
 \item{ordering}{a list with the order of the variables in t_0}
-
-\item{counters}{the number of elements in each causal unit of the causality list}
 
 \item{rows}{number of arcs in the network}
 }

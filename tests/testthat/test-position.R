@@ -93,3 +93,37 @@ test_that("position plus velocity works", {
   )
   expect_equal(ps$get_cl(), res)
 })
+
+test_that("position minus position works", {
+  net <- bnlearn::model2network("[A_t_2][B_t_2][C_t_2][A_t_1][B_t_1][C_t_1][A_t_0|A_t_1:B_t_2:C_t_1][B_t_0|A_t_1:B_t_1][C_t_0|B_t_2:C_t_2]")
+  class(net) <- c("dbn", class(net))
+  ordering <- c("A_t_0", "B_t_0", "C_t_0")
+  size <- 3
+  ps1 <- Position$new(net, size)
+  
+  ordering <- c("A", "B", "C")
+  set.seed(51)
+  ps2 <- Position$new(NULL, size, ordering)
+  
+  vl <- ps1$subtract_position(ps2)
+  
+  res <- list(
+    list(
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(0,0,1)),
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(1,0,0)),
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(0,0,0))),
+    list(
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(0,0,0)),
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(0,0,-1)),
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(0,0,0)))
+  )
+  
+  expect_equal(vl$get_cl(), res)
+  expect_equal(vl$get_abs_op(), 3)
+})

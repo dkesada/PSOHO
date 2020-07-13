@@ -82,6 +82,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// pos_minus_pos_cpp
+Rcpp::List pos_minus_pos_cpp(Rcpp::List& cl, Rcpp::List& ps, Rcpp::List& vl);
+RcppExport SEXP _psoho_pos_minus_pos_cpp(SEXP clSEXP, SEXP psSEXP, SEXP vlSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List& >::type cl(clSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List& >::type ps(psSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List& >::type vl(vlSEXP);
+    rcpp_result_gen = Rcpp::wrap(pos_minus_pos_cpp(cl, ps, vl));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_psoho_initialize_cl_cpp", (DL_FUNC) &_psoho_initialize_cl_cpp, 2},
@@ -90,6 +103,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_psoho_pos_plus_vel_cpp", (DL_FUNC) &_psoho_pos_plus_vel_cpp, 3},
     {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
     {"_psoho_randomize_vl_cpp", (DL_FUNC) &_psoho_randomize_vl_cpp, 3},
+    {"_psoho_pos_minus_pos_cpp", (DL_FUNC) &_psoho_pos_minus_pos_cpp, 3},
     {NULL, NULL, 0}
 };
 

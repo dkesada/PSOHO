@@ -4,14 +4,139 @@
 \alias{Velocity}
 \title{R6 class that defines velocities affecting causality lists in the PSO}
 \description{
+R6 class that defines velocities affecting causality lists in the PSO
+
+R6 class that defines velocities affecting causality lists in the PSO
+}
+\details{
 The velocities will be defined as a causality list where each element in
 a causal unit is a pair (v, node) with v being either 0, 1 or -1. 0 means 
 that arc remained the same, 1 means that arc was added and -1 means that arc 
 was deleted.
 }
-\section{Fields}{
-
+\section{Super class}{
+\code{\link[psoho:Causlist]{psoho::Causlist}} -> \code{Velocity}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{abs_op}}{Total number of operations 1 or -1 in the velocity}
-}}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{abs_op}}{Total number of operations 1 or -1 in the velocity}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-get_abs_op}{\code{Velocity$get_abs_op()}}
+\item \href{#method-set_abs_op}{\code{Velocity$set_abs_op()}}
+\item \href{#method-randomize_velocity}{\code{Velocity$randomize_velocity()}}
+\item \href{#method-subtract_positions}{\code{Velocity$subtract_positions()}}
+\item \href{#method-clone}{\code{Velocity$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="psoho" data-topic="Causlist" data-id="get_cl">}\href{../../psoho/html/Causlist.html#method-get_cl}{\code{psoho::Causlist$get_cl()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="psoho" data-topic="Causlist" data-id="get_ordering">}\href{../../psoho/html/Causlist.html#method-get_ordering}{\code{psoho::Causlist$get_ordering()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="psoho" data-topic="Causlist" data-id="get_size">}\href{../../psoho/html/Causlist.html#method-get_size}{\code{psoho::Causlist$get_size()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="psoho" data-topic="Causlist" data-id="initialize">}\href{../../psoho/html/Causlist.html#method-initialize}{\code{psoho::Causlist$initialize()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_abs_op"></a>}}
+\if{latex}{\out{\hypertarget{method-get_abs_op}{}}}
+\subsection{Method \code{get_abs_op()}}{
+Getter of the abs_op attribute.
 
+return the number of operations that the velocity performs
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Velocity$get_abs_op()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-set_abs_op"></a>}}
+\if{latex}{\out{\hypertarget{method-set_abs_op}{}}}
+\subsection{Method \code{set_abs_op()}}{
+Setter of the abs_op attribute. Intended for inside use only. 
+This should be a 'protected' function in Java-like OOP, but there's no 
+such thing in R6. This function should not be used from outside the
+package.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Velocity$set_abs_op(n)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{n}}{the new number of operations that the velocity performs}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-randomize_velocity"></a>}}
+\if{latex}{\out{\hypertarget{method-randomize_velocity}{}}}
+\subsection{Method \code{randomize_velocity()}}{
+Randomizes the Velocity's directions. If the seed provided is -1, no
+seed will be used.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Velocity$randomize_velocity(probs, seed = -1)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{probs}}{the weight of each value {-1,0,1}. They define the probability that each of them will be picked}
+
+\item{\code{seed}}{the seed provided to the random number generation}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-subtract_positions"></a>}}
+\if{latex}{\out{\hypertarget{method-subtract_positions}{}}}
+\subsection{Method \code{subtract_positions()}}{
+Given a position, returns the velocity that gets this position to the
+other.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Velocity$subtract_positions(ps1, ps2)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ps}}{a Position object
+return the Velocity that gets this position to the new one}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Velocity$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

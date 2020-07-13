@@ -4,6 +4,7 @@
 //' 
 //' @param vl a velocity list
 //' @param probs the probabilities of each value in the set {-1,0,1}
+//' @param seed the seed used for random number generation. Ignored if lesser than 0
 //' @return a velocity list with randomized values
 // [[Rcpp::export]]
 Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs, int seed) {
@@ -29,6 +30,55 @@ Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs, int seed) {
   
   res[0] = vl;
   res[1] = abs_op;
+  
+  return res;
+}
+
+//' Substracts two Positions to obtain the Velocity that transforms one into the other
+//' 
+//' @param cl the first position's causal list
+//' @param ps the second position's causal list
+//' @param vl the Velocity's causal list
+//' @return a list with the Velocity's causal list and the number of operations
+// [[Rcpp::export]]
+Rcpp::List pos_minus_pos_cpp(Rcpp::List &cl, Rcpp::List &ps, Rcpp::List &vl){
+  Rcpp::List slice_cl;
+  Rcpp::List slice_ps;
+  Rcpp::List slice_vl;
+  Rcpp::List cu_cl;
+  Rcpp::List cu_ps;
+  Rcpp::List cu_vl;
+  Rcpp::List pair_cl;
+  Rcpp::List pair_ps;
+  Rcpp::List pair_vl;
+  Rcpp::NumericVector dirs_cl;
+  Rcpp::NumericVector dirs_ps;
+  Rcpp::NumericVector dirs_vl;
+  int n_abs = 0;
+  Rcpp::List res (2);
+  
+  for(unsigned int i = 0; i < cl.size(); i++){
+    slice_cl = cl[i];
+    slice_ps = ps[i];
+    slice_vl = vl[i];
+    
+    for(unsigned int j = 0; j < slice_cl.size(); j++){
+      pair_cl = slice_cl[j];
+      pair_ps = slice_ps[j];
+      pair_vl = slice_vl[j];
+      dirs_cl = pair_cl[1];
+      dirs_ps = pair_ps[1];
+      dirs_vl = subtract_dirs_vec(dirs_cl, dirs_ps, n_abs);
+      
+      pair_vl[1] = dirs_vl;
+      slice_vl[j] = pair_vl;
+    }
+    
+    vl[i] = slice_vl;
+  }
+  
+  res[0] = vl;
+  res[1] = n_abs;
   
   return res;
 }

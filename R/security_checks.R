@@ -38,7 +38,7 @@ numeric_prob_vector_check <- function(obj){
   # Not checking for positive numbers. Negative ones are also valid, although kind of useless.
 }
 
-initial_vel_pos_check <- function(vl, size, ordering){
+initial_vel_2_pos_check <- function(vl, size, ordering){
   if(vl$get_size() != size)
     stop("The position and the velocity have different sizes.")
   # The orderings must have unique nodes
@@ -46,5 +46,14 @@ initial_vel_pos_check <- function(vl, size, ordering){
     if(!(x %in% ordering))
       stop("The position and the velocity have different nodes.")
   })
-  
+}
+
+initial_pos_2_pos_check <- function(ps, size, ordering){
+  if(ps$get_size() != size)
+    stop("The two positions have different sizes.")
+  # The orderings must have unique nodes
+  sapply(ps$get_ordering(), function(x){
+    if(!(x %in% ordering))
+      stop("The two positions have different nodes.")
+  })
 }

@@ -2,6 +2,7 @@
 
 //' Create a causal list from a DBN. This is the C++ backend of the function.
 //' 
+//' @param cl an initialized causality list
 //' @param net a dbn object treated as a list of lists
 //' @param size the size of the DBN
 //' @param ordering a list with the order of the variables in t_0
@@ -104,4 +105,3 @@ Rcpp::List pos_plus_vel_cpp(Rcpp::List &cl, Rcpp::List &vl, int n_arcs){
   
   return res;
 }
-

@@ -48,4 +48,5 @@ test_that("random velocity generation works", {
   )
   
   expect_equal(vl$get_cl(), res)
+  expect_equal(vl$get_abs_op(), 9)
 })

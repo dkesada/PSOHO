@@ -12,6 +12,7 @@ initialize_cl_cpp <- function(ordering, size) {
 
 #' Create a causal list from a DBN. This is the C++ backend of the function.
 #' 
+#' @param cl an initialized causality list
 #' @param net a dbn object treated as a list of lists
 #' @param size the size of the DBN
 #' @param ordering a list with the order of the variables in t_0
@@ -54,8 +55,19 @@ rename_nodes_cpp <- function(nodes, size) {
 #' 
 #' @param vl a velocity list
 #' @param probs the probabilities of each value in the set {-1,0,1}
+#' @param seed the seed used for random number generation. Ignored if lesser than 0
 #' @return a velocity list with randomized values
 randomize_vl_cpp <- function(vl, probs, seed) {
     .Call('_psoho_randomize_vl_cpp', PACKAGE = 'psoho', vl, probs, seed)
+}
+
+#' Substracts two Positions to obtain the Velocity that transforms one into the other
+#' 
+#' @param cl the first position's causal list
+#' @param ps the second position's causal list
+#' @param vl the Velocity's causal list
+#' @return a list with the Velocity's causal list and the number of operations
+pos_minus_pos_cpp <- function(cl, ps, vl) {
+    .Call('_psoho_pos_minus_pos_cpp', PACKAGE = 'psoho', cl, ps, vl)
 }
 

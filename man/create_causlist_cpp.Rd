@@ -7,6 +7,8 @@
 create_causlist_cpp(cl, net, size, ordering)
 }
 \arguments{
+\item{cl}{an initialized causality list}
+
 \item{net}{a dbn object treated as a list of lists}
 
 \item{size}{the size of the DBN}

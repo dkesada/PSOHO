@@ -8,13 +8,48 @@
 Velocity <- R6::R6Class("Velocity",
   inherit = Causlist,
   public = list(
+    #' @description 
+    #' Getter of the abs_op attribute.
+    #' 
+    #' return the number of operations that the velocity performs
     get_abs_op = function(){return(private$abs_op)},
     
+    #' @description 
+    #' Setter of the abs_op attribute. Intended for inside use only. 
+    #' This should be a 'protected' function in Java-like OOP, but there's no 
+    #' such thing in R6. This function should not be used from outside the
+    #' package.
+    #' 
+    #' @param n the new number of operations that the velocity performs
+    set_abs_op = function(n){private$abs_op = n},
+    
+    #' @description 
+    #' Randomizes the Velocity's directions. If the seed provided is -1, no
+    #' seed will be used.
+    #' 
+    #' @param probs the weight of each value {-1,0,1}. They define the probability that each of them will be picked 
+    #' @param seed the seed provided to the random number generation
     randomize_velocity = function(probs, seed = -1){
       numeric_prob_vector_check(probs)
       directions = randomize_vl_cpp(private$cl, probs, seed)
       private$cl = directions[[1]]
       private$abs_op = directions[[2]]
+    },
+    
+    #' @description 
+    #' Given a position, returns the velocity that gets this position to the
+    #' other.
+    #' 
+    #' @param ps a Position object
+    #' return the Velocity that gets this position to the new one
+    subtract_positions = function(ps1, ps2){
+      initial_pos_2_pos_check(ps1, ps2$get_size(), ps2$get_ordering())
+      
+      res = pos_minus_pos_cpp(ps1$get_cl(), ps2$get_cl(), private$cl)
+      
+      # Set the directions and the abs_op
+      private$cl = res[[1]]
+      private$abs_op = res[[2]]
     }
     
   ),

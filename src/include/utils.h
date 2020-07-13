@@ -16,4 +16,6 @@ Rcpp::StringVector rename_slices(const Rcpp::StringVector &nodes, unsigned int s
 Rcpp::List random_directions(const Rcpp::NumericVector &probs, unsigned int size, int seed);
 int add_dirs(int d1, int d2, int &n_arcs);
 Rcpp::NumericVector add_dirs_vec(const NumericVector &d1, const NumericVector &d2, int &n_arcs);
+int subtract_dirs(int d1, int d2, int &n_abs);
+Rcpp::NumericVector subtract_dirs_vec(const NumericVector &d1, const NumericVector &d2, int &n_abs);
 #endif

@@ -90,6 +90,7 @@ Rcpp::List random_directions(const Rcpp::NumericVector &probs, unsigned int size
 // 
 // @param d1 first direction
 // @param d2 second direction
+// @param n_arcs the number of arcs present in the resulting causal list
 // @return the result of adding them
 int add_dirs(int d1, int d2, int &n_arcs){
   int res = d1 + d2;
@@ -109,14 +110,46 @@ int add_dirs(int d1, int d2, int &n_arcs){
 
 // Add two directions vectors whose value has to be in the set {-1,0,1}
 // 
-// @param v1 first NumericVector direction
-// @param v2 second NumericVector direction
+// @param d1 first NumericVector direction
+// @param d2 second NumericVector direction
+// @param n_arcs the number of arcs present in the resulting causal list
 // @return the result of adding them
 Rcpp::NumericVector add_dirs_vec(const NumericVector &d1, const NumericVector &d2, int &n_arcs){
   Rcpp::NumericVector res (d1.size());
   
   for(unsigned int i = 0; i < d1.size(); i++){
     res[i] = add_dirs(d1[i], d2[i], n_arcs);
+  }
+  
+  return res;
+}
+
+// Subtract two directions whose value has to be in the set {-1,0,1}
+// 
+// @param d1 first direction
+// @param d2 second direction
+// @param n_arcs the number of arcs operations present in the resulting Velocity
+// @return the result of subtracting them
+int subtract_dirs(int d1, int d2, int &n_abs){
+  int res = d1 - d2;
+  
+  if(d1 != d2)
+    n_abs++;
+  
+  return res;
+}
+
+// Subtract two directions vectors whose value has to be in the set {-1,0,1}
+// 
+// @param d1 first NumericVector direction
+// @param d2 second NumericVector direction
+// @param n_arcs the number of arcs operations present in the resulting Velocity
+// @return the result of subtracting them
+Rcpp::NumericVector subtract_dirs_vec(const NumericVector &d1, const NumericVector &d2, int &n_abs){
+  Rcpp::NumericVector res (d1.size());
+  
+  for(unsigned int i = 0; i < d1.size(); i++){
+    res[i] = subtract_dirs(d1[i], d2[i], n_abs);
   }
   
   return res;
