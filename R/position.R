@@ -57,7 +57,9 @@ Position <- R6::R6Class("Position",
     add_velocity = function(vl){
       initial_vel_pos_check(vl, private$size, private$ordering)
       
-      # TODO
+      res = pos_plus_vel_cpp(private$cl, vl$get_cl(), private$n_arcs)
+      private$cl = res[[1]]
+      private$n_arcs = res[[2]]
     }
   ),
   

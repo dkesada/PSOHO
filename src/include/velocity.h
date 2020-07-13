@@ -9,5 +9,5 @@ using namespace Rcpp;
 
 #ifndef vl_op
 #define vl_op
-Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs);
+Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs, int seed);
 #endif

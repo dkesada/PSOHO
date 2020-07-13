@@ -63,3 +63,45 @@ Rcpp::CharacterMatrix cl_to_arc_matrix_cpp(Rcpp::List &cl, Rcpp::CharacterVector
   return res;
 }
 
+//' Add a velocity to a position
+//' 
+//' @param cl the position's causal list
+//' @param vl the velocity's causal list
+//' @param n_arcs number of arcs present in the position
+//' @return a list with the modified position and the new number of arcs
+// [[Rcpp::export]]
+Rcpp::List pos_plus_vel_cpp(Rcpp::List &cl, Rcpp::List &vl, int n_arcs){
+  Rcpp::List slice_cl;
+  Rcpp::List slice_vl;
+  Rcpp::List cu_cl;
+  Rcpp::List cu_vl;
+  Rcpp::List pair_cl;
+  Rcpp::List pair_vl;
+  Rcpp::NumericVector dirs_cl;
+  Rcpp::NumericVector dirs_vl;
+  Rcpp::List res (2);
+  
+  for(unsigned int i = 0; i < cl.size(); i++){
+    slice_cl = cl[i];
+    slice_vl = vl[i];
+    
+    for(unsigned int j = 0; j < slice_cl.size(); j++){
+      pair_cl = slice_cl[j];
+      pair_vl = slice_vl[j];
+      dirs_cl = pair_cl[1];
+      dirs_vl = pair_vl[1];
+      dirs_cl = add_dirs_vec(dirs_cl, dirs_vl, n_arcs);
+      
+      pair_cl[1] = dirs_cl;
+      slice_cl[j] = pair_cl;
+    }
+    
+    cl[i] = slice_cl;
+  }
+  
+  res[0] = cl;
+  res[1] = n_arcs;
+  
+  return res;
+}
+

@@ -63,3 +63,33 @@ test_that("translation from Position to bn works", {
 
   expect_setequal(res_net, res)
 })
+
+test_that("position plus velocity works", {
+  net <- bnlearn::model2network("[A_t_2][B_t_2][C_t_2][A_t_1][B_t_1][C_t_1][A_t_0|A_t_1:B_t_2:C_t_1][B_t_0|A_t_1:B_t_1][C_t_0|B_t_2:C_t_2]")
+  class(net) <- c("dbn", class(net))
+  ordering <- c("A_t_0", "B_t_0", "C_t_0")
+  size <- 3
+
+  ps <- Position$new(net, size)
+  vl <- Velocity$new(ordering, size)
+  vl$randomize_velocity(c(15,60,25), 42)
+  ps$add_velocity(vl)
+  
+  res <- list(
+    list(
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(1,0,1)),
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(1,1,0)),
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(0,0,0))),
+    list(
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(0,0,0)),
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(1,0,1)),
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(0,1,0)))
+  )
+  expect_equal(ps$get_cl(), res)
+})

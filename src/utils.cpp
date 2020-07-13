@@ -7,7 +7,7 @@
 //' @param size the size of the DBN
 //' @return a list with the renamed nodes in each timeslice
 // [[Rcpp::export]]
-Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector &nodes, unsigned int size){
+Rcpp::StringVector rename_nodes_cpp(const Rcpp::StringVector &nodes, unsigned int size){
   Rcpp::StringVector res (nodes.size() * size);
   std::string new_name;
   
@@ -40,7 +40,7 @@ int find_index(std::string node){
 // @param nodes a string vector with the names of the nodes
 // @param slice the new slice of the nodes
 // @return an integer with the time slice that the node belongs to
-Rcpp::StringVector rename_slices(Rcpp::StringVector nodes, unsigned int slice){
+Rcpp::StringVector rename_slices(const Rcpp::StringVector &nodes, unsigned int slice){
   std::smatch m;
   std::string new_name;
   Rcpp::StringVector res (nodes.size());
@@ -53,7 +53,7 @@ Rcpp::StringVector rename_slices(Rcpp::StringVector nodes, unsigned int slice){
     res[i] = new_name;
   }
   
-  return(res);
+  return res;
 }
 
 // Generate a random vector of n {-1,0,1} directions
@@ -61,7 +61,7 @@ Rcpp::StringVector rename_slices(Rcpp::StringVector nodes, unsigned int slice){
 // @param probs the weights of each value in the random generation
 // @param size the number of random directions to generate
 // @return a NumericVector with the random directions
-Rcpp::List random_directions(Rcpp::NumericVector probs, unsigned int size){
+Rcpp::List random_directions(const Rcpp::NumericVector &probs, unsigned int size, int seed){
   Rcpp::NumericVector res_n (size);
   static std::random_device rd;
   static std::mt19937 gen(rd());
@@ -69,6 +69,10 @@ Rcpp::List random_directions(Rcpp::NumericVector probs, unsigned int size){
   int base[3] = {-1,0,1};
   unsigned int abs_op = 0;
   Rcpp::List res (2);
+  
+  if(seed > 0)
+    gen.seed(seed);
+  
   
   for(unsigned int i = 0; i < size; i++){
     int dir = distribution(gen);
@@ -79,5 +83,41 @@ Rcpp::List random_directions(Rcpp::NumericVector probs, unsigned int size){
   res[0] = res_n;
   res[1] = abs_op;
   
-  return(res);
+  return res;
+}
+
+// Add two directions whose value has to be in the set {-1,0,1}
+// 
+// @param d1 first direction
+// @param d2 second direction
+// @return the result of adding them
+int add_dirs(int d1, int d2, int &n_arcs){
+  int res = d1 + d2;
+  
+  if(res < 0)
+    res = 0;
+  else if(res > 1)
+    res = 1;
+  
+  if(res > d1)
+    n_arcs++;
+  else if(res < d1)
+    n_arcs--;
+  
+  return res;
+}
+
+// Add two directions vectors whose value has to be in the set {-1,0,1}
+// 
+// @param v1 first NumericVector direction
+// @param v2 second NumericVector direction
+// @return the result of adding them
+Rcpp::NumericVector add_dirs_vec(const NumericVector &d1, const NumericVector &d2, int &n_arcs){
+  Rcpp::NumericVector res (d1.size());
+  
+  for(unsigned int i = 0; i < d1.size(); i++){
+    res[i] = add_dirs(d1[i], d2[i], n_arcs);
+  }
+  
+  return res;
 }

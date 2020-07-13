@@ -30,6 +30,16 @@ cl_to_arc_matrix_cpp <- function(cl, ordering, rows) {
     .Call('_psoho_cl_to_arc_matrix_cpp', PACKAGE = 'psoho', cl, ordering, rows)
 }
 
+#' Add a velocity to a position
+#' 
+#' @param cl the position's causal list
+#' @param vl the velocity's causal list
+#' @param n_arcs number of arcs present in the position
+#' @return a list with the modified position and the new number of arcs
+pos_plus_vel_cpp <- function(cl, vl, n_arcs) {
+    .Call('_psoho_pos_plus_vel_cpp', PACKAGE = 'psoho', cl, vl, n_arcs)
+}
+
 #' Return a list of nodes with the time slice appended up to the desired size
 #' of the network
 #' 
@@ -45,7 +55,7 @@ rename_nodes_cpp <- function(nodes, size) {
 #' @param vl a velocity list
 #' @param probs the probabilities of each value in the set {-1,0,1}
 #' @return a velocity list with randomized values
-randomize_vl_cpp <- function(vl, probs) {
-    .Call('_psoho_randomize_vl_cpp', PACKAGE = 'psoho', vl, probs)
+randomize_vl_cpp <- function(vl, probs, seed) {
+    .Call('_psoho_randomize_vl_cpp', PACKAGE = 'psoho', vl, probs, seed)
 }
 

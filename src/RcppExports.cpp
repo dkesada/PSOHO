@@ -44,27 +44,41 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// pos_plus_vel_cpp
+Rcpp::List pos_plus_vel_cpp(Rcpp::List& cl, Rcpp::List& vl, int n_arcs);
+RcppExport SEXP _psoho_pos_plus_vel_cpp(SEXP clSEXP, SEXP vlSEXP, SEXP n_arcsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List& >::type cl(clSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List& >::type vl(vlSEXP);
+    Rcpp::traits::input_parameter< int >::type n_arcs(n_arcsSEXP);
+    rcpp_result_gen = Rcpp::wrap(pos_plus_vel_cpp(cl, vl, n_arcs));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rename_nodes_cpp
-Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector& nodes, unsigned int size);
+Rcpp::StringVector rename_nodes_cpp(const Rcpp::StringVector& nodes, unsigned int size);
 RcppExport SEXP _psoho_rename_nodes_cpp(SEXP nodesSEXP, SEXP sizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::StringVector& >::type nodes(nodesSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::StringVector& >::type nodes(nodesSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type size(sizeSEXP);
     rcpp_result_gen = Rcpp::wrap(rename_nodes_cpp(nodes, size));
     return rcpp_result_gen;
 END_RCPP
 }
 // randomize_vl_cpp
-Rcpp::List randomize_vl_cpp(Rcpp::List& vl, NumericVector& probs);
-RcppExport SEXP _psoho_randomize_vl_cpp(SEXP vlSEXP, SEXP probsSEXP) {
+Rcpp::List randomize_vl_cpp(Rcpp::List& vl, NumericVector& probs, int seed);
+RcppExport SEXP _psoho_randomize_vl_cpp(SEXP vlSEXP, SEXP probsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::List& >::type vl(vlSEXP);
     Rcpp::traits::input_parameter< NumericVector& >::type probs(probsSEXP);
-    rcpp_result_gen = Rcpp::wrap(randomize_vl_cpp(vl, probs));
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(randomize_vl_cpp(vl, probs, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -73,8 +87,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_psoho_initialize_cl_cpp", (DL_FUNC) &_psoho_initialize_cl_cpp, 2},
     {"_psoho_create_causlist_cpp", (DL_FUNC) &_psoho_create_causlist_cpp, 4},
     {"_psoho_cl_to_arc_matrix_cpp", (DL_FUNC) &_psoho_cl_to_arc_matrix_cpp, 3},
+    {"_psoho_pos_plus_vel_cpp", (DL_FUNC) &_psoho_pos_plus_vel_cpp, 3},
     {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
-    {"_psoho_randomize_vl_cpp", (DL_FUNC) &_psoho_randomize_vl_cpp, 2},
+    {"_psoho_randomize_vl_cpp", (DL_FUNC) &_psoho_randomize_vl_cpp, 3},
     {NULL, NULL, 0}
 };
 
