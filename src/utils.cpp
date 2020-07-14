@@ -154,3 +154,45 @@ Rcpp::NumericVector subtract_dirs_vec(const NumericVector &d1, const NumericVect
   
   return res;
 }
+
+// Add two velocity directions whose value has to be in the set {-1,0,1}
+// 
+// @param d1 first direction
+// @param d2 second direction
+// @param abs_op the number of {1,-1} operations present in the resulting Velocity
+// @return the result of adding them
+int add_vel_dirs(int d1, int d2, int &abs_op){
+  int res = d1 + d2;
+  
+  if(res < -1)
+    res = -1;
+  else if(res > 1)
+    res = 1;
+  
+  if(res > d1 && res == 1)
+    abs_op++;
+  else if(res > d1 && res == 0)
+    abs_op--;
+  else if(res < d1 && res == 0)
+    abs_op--;
+  else if(res < d1 && res == -1)
+    abs_op++;
+  
+  return res;
+}
+
+// Subtract two directions vectors whose value has to be in the set {-1,0,1}
+// 
+// @param d1 first NumericVector direction
+// @param d2 second NumericVector direction
+// @param abs_op the number of {1,-1} operations present in the resulting Velocity
+// @return the result of adding them
+Rcpp::NumericVector add_vel_dirs_vec(const NumericVector &d1, const NumericVector &d2, int &abs_op){
+  Rcpp::NumericVector res (d1.size());
+  
+  for(unsigned int i = 0; i < d1.size(); i++){
+    res[i] = add_vel_dirs(d1[i], d2[i], abs_op);
+  }
+  
+  return res;
+}

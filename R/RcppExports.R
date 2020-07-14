@@ -71,3 +71,13 @@ pos_minus_pos_cpp <- function(cl, ps, vl) {
     .Call('_psoho_pos_minus_pos_cpp', PACKAGE = 'psoho', cl, ps, vl)
 }
 
+#' Substracts two Positions to obtain the Velocity that transforms one into the other
+#' 
+#' @param cl the first position's causal list
+#' @param ps the second position's causal list
+#' @param vl the Velocity's causal list
+#' @return a list with the Velocity's causal list and the number of operations
+vel_plus_vel_cpp <- function(vl1, vl2, abs_op) {
+    .Call('_psoho_vel_plus_vel_cpp', PACKAGE = 'psoho', vl1, vl2, abs_op)
+}
+

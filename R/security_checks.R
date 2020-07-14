@@ -57,3 +57,13 @@ initial_pos_2_pos_check <- function(ps, size, ordering){
       stop("The two positions have different nodes.")
   })
 }
+
+initial_vel_2_vel_check <- function(vl, size, ordering){
+  if(vl$get_size() != size)
+    stop("The two velocities have different sizes.")
+  # The orderings must have unique nodes
+  sapply(vl$get_ordering(), function(x){
+    if(!(x %in% ordering))
+      stop("The two velocities have different nodes.")
+  })
+}

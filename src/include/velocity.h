@@ -11,4 +11,5 @@ using namespace Rcpp;
 #define vl_op
 Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs, int seed);
 Rcpp::List pos_minus_pos_cpp(Rcpp::List &cl, Rcpp::List &ps, Rcpp::List &vl);
+Rcpp::List vel_plus_vel_cpp(Rcpp::List &vl1, Rcpp::List &vl2, int abs_op);
 #endif

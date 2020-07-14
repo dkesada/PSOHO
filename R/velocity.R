@@ -47,7 +47,19 @@ Velocity <- R6::R6Class("Velocity",
       
       res = pos_minus_pos_cpp(ps1$get_cl(), ps2$get_cl(), private$cl)
       
-      # Set the directions and the abs_op
+      private$cl = res[[1]]
+      private$abs_op = res[[2]]
+    },
+    
+    #' @description 
+    #' Add both velocities directions
+    #' 
+    #' @param vl a Velocity object
+    add_velocity = function(vl){
+      initial_vel_2_vel_check(vl, private$size, private$ordering)
+      
+      res = vel_plus_vel_cpp(private$cl, vl$get_cl(), private$abs_op)
+      
       private$cl = res[[1]]
       private$abs_op = res[[2]]
     }

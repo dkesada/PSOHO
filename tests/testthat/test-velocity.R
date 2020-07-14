@@ -50,3 +50,36 @@ test_that("random velocity generation works", {
   expect_equal(vl$get_cl(), res)
   expect_equal(vl$get_abs_op(), 9)
 })
+
+test_that("velocity addition works", { 
+  ordering <- c("A_t_0", "B_t_0", "C_t_0")
+  size <- 3
+  
+  vl1 <- Velocity$new(ordering, size)
+  vl1$randomize_velocity(c(15,60,25), 42)
+  
+  vl2 <- Velocity$new(ordering, size)
+  vl2$randomize_velocity(c(15,60,25), 43)
+  
+  vl1$add_velocity(vl2)
+  
+  res <- list(
+    list(
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(1,-1,0)),
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(0,1,-1)),
+      list(c("A_t_1", "B_t_1", "C_t_1"),
+           c(-1,0,-1))),
+    list(
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(0,-1,-1)),
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(1,0,1)),
+      list(c("A_t_2", "B_t_2", "C_t_2"),
+           c(0,0,-1)))
+  )
+  
+  expect_equal(vl1$get_cl(), res)
+  expect_equal(vl1$get_abs_op(), 11)
+})

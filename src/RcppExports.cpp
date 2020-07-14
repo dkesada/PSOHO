@@ -95,6 +95,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// vel_plus_vel_cpp
+Rcpp::List vel_plus_vel_cpp(Rcpp::List& vl1, Rcpp::List& vl2, int abs_op);
+RcppExport SEXP _psoho_vel_plus_vel_cpp(SEXP vl1SEXP, SEXP vl2SEXP, SEXP abs_opSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List& >::type vl1(vl1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::List& >::type vl2(vl2SEXP);
+    Rcpp::traits::input_parameter< int >::type abs_op(abs_opSEXP);
+    rcpp_result_gen = Rcpp::wrap(vel_plus_vel_cpp(vl1, vl2, abs_op));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_psoho_initialize_cl_cpp", (DL_FUNC) &_psoho_initialize_cl_cpp, 2},
@@ -104,6 +117,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
     {"_psoho_randomize_vl_cpp", (DL_FUNC) &_psoho_randomize_vl_cpp, 3},
     {"_psoho_pos_minus_pos_cpp", (DL_FUNC) &_psoho_pos_minus_pos_cpp, 3},
+    {"_psoho_vel_plus_vel_cpp", (DL_FUNC) &_psoho_vel_plus_vel_cpp, 3},
     {NULL, NULL, 0}
 };
 
