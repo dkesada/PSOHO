@@ -83,11 +83,11 @@ Rcpp::List pos_minus_pos_cpp(Rcpp::List &cl, Rcpp::List &ps, Rcpp::List &vl){
   return res;
 }
 
-//' Substracts two Positions to obtain the Velocity that transforms one into the other
+//' Add two Velocities 
 //' 
-//' @param cl the first position's causal list
-//' @param ps the second position's causal list
-//' @param vl the Velocity's causal list
+//' @param vl1 the first Velocity's causal list
+//' @param vl2 the second Velocity's causal list
+//' @param abs_op the final number of {1,-1} operations
 //' @return a list with the Velocity's causal list and the number of operations
 // [[Rcpp::export]]
 Rcpp::List vel_plus_vel_cpp(Rcpp::List &vl1, Rcpp::List &vl2, int abs_op){
@@ -121,6 +121,58 @@ Rcpp::List vel_plus_vel_cpp(Rcpp::List &vl1, Rcpp::List &vl2, int abs_op){
   
   res[0] = vl1;
   res[1] = abs_op;
+  
+  return res;
+}
+
+//' Multiply a Velocity by a constant real number
+//' 
+//' @param k the constant real number
+//' @param vl the Velocity's causal list
+//' @param abs_op the final number of {1,-1} operations
+//' @param max_op the maximum number of directions in the causal list
+//' @return a list with the Velocity's new causal list and number of operations
+// [[Rcpp::export]]
+Rcpp::List cte_times_vel_cpp(const float k, Rcpp::List vl, unsigned int abs_op, int max_op){
+  Rcpp::List slice;
+  Rcpp::List cu;
+  Rcpp::List pair;
+  Rcpp::NumericVector dirs;
+  Rcpp::List res (2);
+  int n_op;
+  int l_pool = abs_op;
+  
+  // Process the k and max_op
+  
+  n_op = floor(k * abs_op);
+  
+  if(n_op < -max_op)
+    n_op = -max_op;
+  if(n_op > max_op)
+    n_op = max_op;
+  n_op = abs_op - n_op;
+  
+  if(n_op < 0){ // Convert {0} into {1,-1}
+    l_pool = max_op - abs_op; // Number of 0's remaining
+    n_op = abs(n_op);
+    Rcpp::List pool (l_pool);
+    
+    // TODO
+    // res = rdm_add_ops()
+  } 
+  
+  else{
+    n_op = abs(n_op);
+    Rcpp::List pool (l_pool);
+    
+    // TODO
+    // res = rdm_delete_ops()
+  }
+  
+  // Loop through the cl to store the position and sign invert the 0's or the 1's depending on k greater or lesser than 0
+  
+  // Sample the position vector to position 0's or 1's in some or all of those positions
+  
   
   return res;
 }

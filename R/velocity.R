@@ -31,9 +31,9 @@ Velocity <- R6::R6Class("Velocity",
     #' @param seed the seed provided to the random number generation
     randomize_velocity = function(probs, seed = -1){
       numeric_prob_vector_check(probs)
-      directions = randomize_vl_cpp(private$cl, probs, seed)
-      private$cl = directions[[1]]
-      private$abs_op = directions[[2]]
+      directions <- randomize_vl_cpp(private$cl, probs, seed)
+      private$cl <- directions[[1]]
+      private$abs_op <- directions[[2]]
     },
     
     #' @description 
@@ -45,10 +45,10 @@ Velocity <- R6::R6Class("Velocity",
     subtract_positions = function(ps1, ps2){
       initial_pos_2_pos_check(ps1, ps2$get_size(), ps2$get_ordering())
       
-      res = pos_minus_pos_cpp(ps1$get_cl(), ps2$get_cl(), private$cl)
+      res <- pos_minus_pos_cpp(ps1$get_cl(), ps2$get_cl(), private$cl)
       
-      private$cl = res[[1]]
-      private$abs_op = res[[2]]
+      private$cl <- res[[1]]
+      private$abs_op <- res[[2]]
     },
     
     #' @description 
@@ -58,12 +58,37 @@ Velocity <- R6::R6Class("Velocity",
     add_velocity = function(vl){
       initial_vel_2_vel_check(vl, private$size, private$ordering)
       
-      res = vel_plus_vel_cpp(private$cl, vl$get_cl(), private$abs_op)
+      res <- vel_plus_vel_cpp(private$cl, vl$get_cl(), private$abs_op)
       
-      private$cl = res[[1]]
-      private$abs_op = res[[2]]
-    }
+      private$cl <- res[[1]]
+      private$abs_op <- res[[2]]
+    },
     
+    #' @description 
+    #' Multiply the Velocity by a constant real number
+    #' 
+    #' This function multiplies the Velocity by a constant real number. 
+    #' It is non deterministic by definition. When calculating k*|V|, the 
+    #' result will be floored and bounded to the set [-max_op, max_op], where max_op
+    #' is the maximum number of arcs that can be present in the network.
+    #' 
+    #' @param k a real number
+    cte_times_velocity = function(k){
+      # initial_numeric_check(k) --ICO-Merge
+      
+      if(k == 0){
+        private$cl <- initialize_cl_cpp(private$ordering, private$size)
+        private$abs_op <- 0
+      }
+      
+      else{
+        max_op <- (private$size - 1) * length(private$ordering) * length(private$ordering)
+        res = cte_times_vel_cpp(k, private$cl, private$abs_op, max_op)
+        
+        private$cl = res[[1]]
+        private$abs_op = res[[2]]
+      }
+    }
   ),
   private = list(
     #' @field abs_op Total number of operations 1 or -1 in the velocity

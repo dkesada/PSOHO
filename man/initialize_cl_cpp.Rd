@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{initialize_cl_cpp}
 \alias{initialize_cl_cpp}
-\title{Create a velocity list and initialize it}
+\title{Create a causality list and initialize it}
 \usage{
 initialize_cl_cpp(ordering, size)
 }
@@ -12,8 +12,8 @@ initialize_cl_cpp(ordering, size)
 \item{size}{the size of the DBN}
 }
 \value{
-a velocity list
+a causality list
 }
 \description{
-Create a velocity list and initialize it
+Create a causality list and initialize it
 }

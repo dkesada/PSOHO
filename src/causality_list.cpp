@@ -1,10 +1,10 @@
 #include "include/causality_list.h"
 
-//' Create a velocity list and initialize it
+//' Create a causality list and initialize it
 //' 
 //' @param ordering a list with the order of the variables in t_0
 //' @param size the size of the DBN
-//' @return a velocity list
+//' @return a causality list
 // [[Rcpp::export]]
 Rcpp::List initialize_cl_cpp(StringVector &ordering, unsigned int size) {
   Rcpp::List res (size - 1);
