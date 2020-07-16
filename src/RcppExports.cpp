@@ -69,18 +69,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// locate_directions
-void locate_directions(Rcpp::List& vl, Rcpp::List& pool, int cmp);
-RcppExport SEXP _psoho_locate_directions(SEXP vlSEXP, SEXP poolSEXP, SEXP cmpSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::List& >::type vl(vlSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List& >::type pool(poolSEXP);
-    Rcpp::traits::input_parameter< int >::type cmp(cmpSEXP);
-    locate_directions(vl, pool, cmp);
-    return R_NilValue;
-END_RCPP
-}
 // randomize_vl_cpp
 Rcpp::List randomize_vl_cpp(Rcpp::List& vl, NumericVector& probs);
 RcppExport SEXP _psoho_randomize_vl_cpp(SEXP vlSEXP, SEXP probsSEXP) {
@@ -120,12 +108,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // cte_times_vel_cpp
-Rcpp::List cte_times_vel_cpp(const float k, Rcpp::List& vl, unsigned int abs_op, int max_op);
+Rcpp::List cte_times_vel_cpp(float k, Rcpp::List& vl, unsigned int abs_op, int max_op);
 RcppExport SEXP _psoho_cte_times_vel_cpp(SEXP kSEXP, SEXP vlSEXP, SEXP abs_opSEXP, SEXP max_opSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const float >::type k(kSEXP);
+    Rcpp::traits::input_parameter< float >::type k(kSEXP);
     Rcpp::traits::input_parameter< Rcpp::List& >::type vl(vlSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type abs_op(abs_opSEXP);
     Rcpp::traits::input_parameter< int >::type max_op(max_opSEXP);
@@ -140,7 +128,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_psoho_cl_to_arc_matrix_cpp", (DL_FUNC) &_psoho_cl_to_arc_matrix_cpp, 3},
     {"_psoho_pos_plus_vel_cpp", (DL_FUNC) &_psoho_pos_plus_vel_cpp, 3},
     {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
-    {"_psoho_locate_directions", (DL_FUNC) &_psoho_locate_directions, 3},
     {"_psoho_randomize_vl_cpp", (DL_FUNC) &_psoho_randomize_vl_cpp, 2},
     {"_psoho_pos_minus_pos_cpp", (DL_FUNC) &_psoho_pos_minus_pos_cpp, 3},
     {"_psoho_vel_plus_vel_cpp", (DL_FUNC) &_psoho_vel_plus_vel_cpp, 3},

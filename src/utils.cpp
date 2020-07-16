@@ -191,14 +191,13 @@ Rcpp::NumericVector add_vel_dirs_vec(const NumericVector &d1, const NumericVecto
   return res;
 }
 
-//' Find the position of 0's or 1's in a Velocity's causality list
-//' 
-//' @param vl the Velocity's causality list
-//' @param pool the list with the positions
-//' @param cmp the direction to be searched, either 0 or 1 
-//' @return a list with the Velocity's new causal list and number of operations
-// [[Rcpp::export]]
-void locate_directions(Rcpp::List &vl, Rcpp::List &pool, int cmp){
+// Find the position of 0's or 1's in a Velocity's causality list
+// 
+// @param vl the Velocity's causality list
+// @param pool the list with the positions
+// @param cmp the direction to be searched, either 0 or 1 
+// @return a list with the Velocity's new causal list and number of operations
+void locate_directions(Rcpp::List &vl, Rcpp::List &pool, int cmp, bool invert){
   Rcpp::List slice;
   Rcpp::List cu;
   Rcpp::List pair;
@@ -213,6 +212,8 @@ void locate_directions(Rcpp::List &vl, Rcpp::List &pool, int cmp){
       dirs = pair[1];
       
       for(unsigned int k = 0; k < dirs.size(); k++){
+        if(invert)
+          dirs[k] = -dirs[k];
         if(abs(dirs[k]) == cmp){
           Rcpp::NumericVector pool_res (3);
           pool_res[0] = i;
@@ -223,5 +224,39 @@ void locate_directions(Rcpp::List &vl, Rcpp::List &pool, int cmp){
       }
     }
   }
+}
+
+// Modify the 0's or 1's in the given positons of a Velocity's causality list
+// 
+// @param vl the Velocity's causality list
+// @param n_pool the list with the positions
+// @param cmp the direction to be searched, either 0 or 1 
+// @return a list with the Velocity's new causal list and number of operations
+void modify_directions(Rcpp::List &vl, Rcpp::List &n_pool, int cmp){
+  Rcpp::List slice;
+  Rcpp::List pair;
+  Rcpp::List tuple;
+  Rcpp::NumericVector dirs;
+  unsigned int idx;
+  NumericVector base = {-1,1};
+  NumericVector rand (1);
   
+  for(unsigned int i = 0; i < n_pool.size(); i++){
+    tuple = n_pool[i];
+    idx = tuple[0];
+    slice = vl[idx];
+    idx = tuple[1];
+    pair = slice[idx];
+    dirs = pair[1];
+    idx = tuple[2];
+    
+    if(cmp == 0){
+      rand = sample(base, 1, false);
+      dirs(idx) = rand[0];
+    }
+      
+    else
+      dirs(idx) = 0;
+    
+  }
 }

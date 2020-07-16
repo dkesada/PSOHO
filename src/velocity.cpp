@@ -131,22 +131,25 @@ Rcpp::List vel_plus_vel_cpp(Rcpp::List &vl1, Rcpp::List &vl2, int abs_op){
 //' @param max_op the maximum number of directions in the causal list
 //' @return a list with the Velocity's new causal list and number of operations
 // [[Rcpp::export]]
-Rcpp::List cte_times_vel_cpp(const float k, Rcpp::List &vl, unsigned int abs_op, int max_op){
-  Rcpp::List slice;
-  Rcpp::List cu;
-  Rcpp::List pair;
-  Rcpp::NumericVector dirs;
+Rcpp::List cte_times_vel_cpp(float k, Rcpp::List &vl, unsigned int abs_op, int max_op){
   Rcpp::List res (2);
   int n_op;
   Rcpp::List pool;
+  Rcpp::List n_pool;
+  int idx;
   int l_pool = abs_op;
   int cmp;
   Rcpp::NumericVector pos;
+  bool invert = false;
   
   // Process the k and max_op
+  if(k < 0){
+    k = abs(k);
+    invert = true;
+  }
   
   n_op = floor(k * abs_op);
-  
+  res[1] = n_op;
   if(n_op < -max_op)
     n_op = -max_op;
   if(n_op > max_op)
@@ -160,20 +163,30 @@ Rcpp::List cte_times_vel_cpp(const float k, Rcpp::List &vl, unsigned int abs_op,
     cmp = 0;
   } 
   
-  else{
+  else{ // Convert {1,-1} into {0}
     n_op = abs(n_op);
     pool = Rcpp::List(l_pool);
     cmp = 1;
   }
   
   // Loop through the cl to store the position and sign invert the 0's or the 1's depending on k greater or lesser than 0
-  locate_directions(vl, pool, cmp);
+  locate_directions(vl, pool, cmp, invert);
   
   // Sample the position vector to position 0's or 1's in some or all of those positions
-  // Random shuffling and picking the first n is equivalent to sampling n elements without replacement, and it is less of a hassle.
   pos = seq(0, pool.size());
-  pos = sample(pos, 4, false);
+  pos = sample(pos, n_op, false);
+  n_pool = Rcpp::List(n_op);
+  for(unsigned int i = 0; i < pos.size(); i++){
+    idx = pos[i];
+    n_pool[i] = pool[idx];
+  }
+  
   Rcout << pos << "\n";
+  
+  // Operate the selected directions
+  // modify_directions(vl, n_pool, cmp); TODO: almost done, some bug keeps crashing R on execution when testing. Worked at first somehow though.
+  
+  res[0] = vl;
   
   return res;
 }

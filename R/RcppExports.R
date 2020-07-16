@@ -51,16 +51,6 @@ rename_nodes_cpp <- function(nodes, size) {
     .Call('_psoho_rename_nodes_cpp', PACKAGE = 'psoho', nodes, size)
 }
 
-#' Find the position of 0's or 1's in a Velocity's causality list
-#' 
-#' @param vl the Velocity's causality list
-#' @param pool the list with the positions
-#' @param cmp the direction to be searched, either 0 or 1 
-#' @return a list with the Velocity's new causal list and number of operations
-locate_directions <- function(vl, pool, cmp) {
-    invisible(.Call('_psoho_locate_directions', PACKAGE = 'psoho', vl, pool, cmp))
-}
-
 #' Randomize a velocity with the given probabilities
 #' 
 #' @param vl a velocity list
