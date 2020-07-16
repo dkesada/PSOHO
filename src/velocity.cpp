@@ -4,10 +4,9 @@
 //' 
 //' @param vl a velocity list
 //' @param probs the probabilities of each value in the set {-1,0,1}
-//' @param seed the seed used for random number generation. Ignored if lesser than 0
 //' @return a velocity list with randomized values
 // [[Rcpp::export]]
-Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs, int seed) {
+Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs) {
   Rcpp::List slice;
   Rcpp::List velocity;
   Rcpp::List directions;
@@ -21,8 +20,7 @@ Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs, int seed) {
     slice = vl[i];
     for(unsigned int j = 0; j < slice.size(); j++){
       pair = slice[j];
-      directions = random_directions(probs, slice.size(), seed);
-      seed = -1; // Note the seed elimination. The generator is already seeded, if seeded again it will return the same results over and over
+      directions = random_directions(probs, slice.size());
       pair[1] = directions[0];
       abs_op += directions[1];
     }
@@ -133,14 +131,17 @@ Rcpp::List vel_plus_vel_cpp(Rcpp::List &vl1, Rcpp::List &vl2, int abs_op){
 //' @param max_op the maximum number of directions in the causal list
 //' @return a list with the Velocity's new causal list and number of operations
 // [[Rcpp::export]]
-Rcpp::List cte_times_vel_cpp(const float k, Rcpp::List vl, unsigned int abs_op, int max_op){
+Rcpp::List cte_times_vel_cpp(const float k, Rcpp::List &vl, unsigned int abs_op, int max_op){
   Rcpp::List slice;
   Rcpp::List cu;
   Rcpp::List pair;
   Rcpp::NumericVector dirs;
   Rcpp::List res (2);
   int n_op;
+  Rcpp::List pool;
   int l_pool = abs_op;
+  int cmp;
+  Rcpp::NumericVector pos;
   
   // Process the k and max_op
   
@@ -155,24 +156,25 @@ Rcpp::List cte_times_vel_cpp(const float k, Rcpp::List vl, unsigned int abs_op, 
   if(n_op < 0){ // Convert {0} into {1,-1}
     l_pool = max_op - abs_op; // Number of 0's remaining
     n_op = abs(n_op);
-    Rcpp::List pool (l_pool);
-    
-    // TODO
-    // res = rdm_add_ops()
+    pool = Rcpp::List(l_pool);
+    cmp = 0;
   } 
   
   else{
     n_op = abs(n_op);
-    Rcpp::List pool (l_pool);
-    
-    // TODO
-    // res = rdm_delete_ops()
+    pool = Rcpp::List(l_pool);
+    cmp = 1;
   }
   
   // Loop through the cl to store the position and sign invert the 0's or the 1's depending on k greater or lesser than 0
+  locate_directions(vl, pool, cmp);
   
   // Sample the position vector to position 0's or 1's in some or all of those positions
-  
+  // Random shuffling and picking the first n is equivalent to sampling n elements without replacement, and it is less of a hassle.
+  pos = seq(0, pool.size());
+  pos = sample(pos, 4, false);
+  Rcout << pos << "\n";
   
   return res;
 }
+

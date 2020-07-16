@@ -61,23 +61,17 @@ Rcpp::StringVector rename_slices(const Rcpp::StringVector &nodes, unsigned int s
 // @param probs the weights of each value in the random generation
 // @param size the number of random directions to generate
 // @return a NumericVector with the random directions
-Rcpp::List random_directions(const Rcpp::NumericVector &probs, unsigned int size, int seed){
+Rcpp::List random_directions(const Rcpp::NumericVector &probs, unsigned int size){
   Rcpp::NumericVector res_n (size);
-  static std::random_device rd;
-  static std::mt19937 gen(rd());
-  std::discrete_distribution<int> distribution (probs.begin(), probs.end());
-  int base[3] = {-1,0,1};
+  NumericVector base = {-1,0,1};
   unsigned int abs_op = 0;
   Rcpp::List res (2);
   
-  if(seed > 0)
-    gen.seed(seed);
-  
-  
   for(unsigned int i = 0; i < size; i++){
-    int dir = distribution(gen);
-    res_n[i] = base[dir];
-    abs_op += std::abs(base[dir]);
+    NumericVector dir = sample(base, 1, true, probs);
+    int dir_val = dir[0];
+    res_n[i] = dir_val;
+    abs_op += std::abs(dir_val);
   }
   
   res[0] = res_n;
@@ -195,4 +189,39 @@ Rcpp::NumericVector add_vel_dirs_vec(const NumericVector &d1, const NumericVecto
   }
   
   return res;
+}
+
+//' Find the position of 0's or 1's in a Velocity's causality list
+//' 
+//' @param vl the Velocity's causality list
+//' @param pool the list with the positions
+//' @param cmp the direction to be searched, either 0 or 1 
+//' @return a list with the Velocity's new causal list and number of operations
+// [[Rcpp::export]]
+void locate_directions(Rcpp::List &vl, Rcpp::List &pool, int cmp){
+  Rcpp::List slice;
+  Rcpp::List cu;
+  Rcpp::List pair;
+  Rcpp::NumericVector dirs;
+  unsigned int pool_i = 0;
+  
+  for(unsigned int i = 0; i < vl.size(); i++){
+    slice = vl[i];
+    
+    for(unsigned int j = 0; j < slice.size(); j++){
+      pair = slice[j];
+      dirs = pair[1];
+      
+      for(unsigned int k = 0; k < dirs.size(); k++){
+        if(abs(dirs[k]) == cmp){
+          Rcpp::NumericVector pool_res (3);
+          pool_res[0] = i;
+          pool_res[1] = j;
+          pool_res[2] = k;
+          pool[pool_i++] = pool_res;
+        }
+      }
+    }
+  }
+  
 }

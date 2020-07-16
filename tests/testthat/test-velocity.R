@@ -33,22 +33,22 @@ test_that("random velocity generation works", {
   res <- list(
     list(
       list(c("A_t_1", "B_t_1", "C_t_1"),
-           c(1,0,1)),
+           c(-1,-1,0)),
       list(c("A_t_1", "B_t_1", "C_t_1"),
-           c(0,0,-1)),
+           c(1,1,0)),
       list(c("A_t_1", "B_t_1", "C_t_1"),
-           c(0,0,-1))),
+           c(1,0,1))),
     list(
       list(c("A_t_2", "B_t_2", "C_t_2"),
-           c(0,-1,0)),
+           c(1,0,1)),
       list(c("A_t_2", "B_t_2", "C_t_2"),
-           c(1,-1,1)),
+           c(-1,0,0)),
       list(c("A_t_2", "B_t_2", "C_t_2"),
-           c(0,0,-1)))
+           c(-1,-1,0)))
   )
   
   expect_equal(vl$get_cl(), res)
-  expect_equal(vl$get_abs_op(), 9)
+  expect_equal(vl$get_abs_op(), 11)
 })
 
 test_that("velocity addition works", { 
@@ -66,20 +66,20 @@ test_that("velocity addition works", {
   res <- list(
     list(
       list(c("A_t_1", "B_t_1", "C_t_1"),
-           c(1,-1,0)),
+           c(-1,-1,0)),
       list(c("A_t_1", "B_t_1", "C_t_1"),
-           c(0,1,-1)),
+           c(1,1,0)),
       list(c("A_t_1", "B_t_1", "C_t_1"),
-           c(-1,0,-1))),
+           c(1,0,1))),
     list(
       list(c("A_t_2", "B_t_2", "C_t_2"),
-           c(0,-1,-1)),
+           c(0,0,1)),
       list(c("A_t_2", "B_t_2", "C_t_2"),
-           c(1,0,1)),
+           c(0,0,0)),
       list(c("A_t_2", "B_t_2", "C_t_2"),
-           c(0,0,-1)))
+           c(0,-1,0)))
   )
   
   expect_equal(vl1$get_cl(), res)
-  expect_equal(vl1$get_abs_op(), 11)
+  expect_equal(vl1$get_abs_op(), 8)
 })
