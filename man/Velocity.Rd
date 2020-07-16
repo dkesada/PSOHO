@@ -27,7 +27,7 @@ This should be a 'protected' function in Java-like OOP, but there's no
 such thing in R6. This function should not be used from outside the
 package.
 
-Randomizes the Velocity's directions. If the seed provided is -1, no
+Randomizes the Velocity's directions. If the seed provided is NULL, no
 seed will be used.
 
 Given a position, returns the velocity that gets this position to the
