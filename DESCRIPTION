@@ -1,7 +1,7 @@
 Package: psoho
 Type: Package
 Title: Particle Swarm Optimization Higher-Order Dynamic Bayesian Network Structure Learning
-Version: 0.0.0.9006
+Version: 0.0.0.9007
 Date: 2020-07-01
 Author: David Quesada
 Maintainer: David Quesada <dkesada@gmail.com>

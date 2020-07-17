@@ -235,7 +235,7 @@ void locate_directions(Rcpp::List &vl, Rcpp::List &pool, int cmp, bool invert){
 void modify_directions(Rcpp::List &vl, Rcpp::List &n_pool, int cmp){
   Rcpp::List slice;
   Rcpp::List pair;
-  Rcpp::List tuple;
+  Rcpp::NumericVector tuple;
   Rcpp::NumericVector dirs;
   unsigned int idx;
   NumericVector base = {-1,1};
@@ -249,14 +249,13 @@ void modify_directions(Rcpp::List &vl, Rcpp::List &n_pool, int cmp){
     pair = slice[idx];
     dirs = pair[1];
     idx = tuple[2];
-    
+
     if(cmp == 0){
       rand = sample(base, 1, false);
       dirs(idx) = rand[0];
     }
-      
+
     else
-      dirs(idx) = 0;
-    
+      dirs(idx) = 0.0;
   }
 }
