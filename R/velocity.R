@@ -29,13 +29,9 @@ Velocity <- R6::R6Class("Velocity",
     #' 
     #' @param probs the weight of each value {-1,0,1}. They define the probability that each of them will be picked 
     #' @param seed the seed provided to the random number generation
-    randomize_velocity = function(probs, seed = NULL){
+    randomize_velocity = function(probs){
       numeric_prob_vector_check(probs)
-      if(!is.null(seed))
-        set.seed(seed)
       directions <- randomize_vl_cpp(private$cl, probs)
-      if(!is.null(seed))
-        set.seed(NULL)
       private$cl <- directions[[1]]
       private$abs_op <- directions[[2]]
     },

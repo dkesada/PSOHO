@@ -72,7 +72,8 @@ test_that("position plus velocity works", {
 
   ps <- Position$new(net, size)
   vl <- Velocity$new(ordering, size)
-  vl$randomize_velocity(c(15,60,25), 42)
+  set.seed(42)
+  vl$randomize_velocity(c(15,60,25))
   ps$add_velocity(vl)
   
   res <- list(
