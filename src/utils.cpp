@@ -14,7 +14,7 @@ Rcpp::StringVector rename_nodes_cpp(const Rcpp::StringVector &nodes, unsigned in
   for(unsigned int i = 0; i < size; i++){
     for(unsigned int j = 0; j < nodes.size(); j++){
       new_name = nodes[j];
-      res[i*3+j] = new_name + "_t_" + std::to_string(size-1-i); // Random network generation works better with t_0 at the end 
+      res[i*nodes.size()+j] = new_name + "_t_" + std::to_string(size-1-i); // Random network generation works better with t_0 at the end 
     }
   }
   
