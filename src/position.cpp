@@ -105,3 +105,25 @@ Rcpp::List pos_plus_vel_cpp(Rcpp::List &cl, Rcpp::List &vl, int n_arcs){
   
   return res;
 }
+
+//' Initialize the particles
+//' 
+//' @param nodes the names of the nodes
+//' @param size the size of the DBN
+//' @param n_inds the number of particles
+//' @return a list with the randomly initialized particles
+// [[Rcpp::export]]
+Rcpp::List init_list_cpp(Rcpp::StringVector nodes, unsigned int size, unsigned int n_inds){
+  Rcpp::List res (n_inds);
+  Environment psoho("package:psoho");
+  Environment env = psoho["Position"];
+  Function new_ps = env["new"];
+  
+  for(unsigned int i = 0; i < n_inds; i++){
+    Environment ps;
+    ps = new_ps(NULL, size, nodes);
+    res[i] = ps;
+  }
+  
+  return res;
+}

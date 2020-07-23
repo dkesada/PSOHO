@@ -3,5 +3,7 @@
 export(Causlist)
 export(Position)
 export(Velocity)
+export(dummy)
+export(learn_dbn_structure_pso)
 importFrom(Rcpp,sourceCpp)
 useDynLib(psoho)

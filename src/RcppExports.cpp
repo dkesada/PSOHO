@@ -57,6 +57,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// init_list_cpp
+Rcpp::List init_list_cpp(Rcpp::StringVector nodes, unsigned int size, unsigned int n_inds);
+RcppExport SEXP _psoho_init_list_cpp(SEXP nodesSEXP, SEXP sizeSEXP, SEXP n_indsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type nodes(nodesSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type n_inds(n_indsSEXP);
+    rcpp_result_gen = Rcpp::wrap(init_list_cpp(nodes, size, n_inds));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rename_nodes_cpp
 Rcpp::StringVector rename_nodes_cpp(const Rcpp::StringVector& nodes, unsigned int size);
 RcppExport SEXP _psoho_rename_nodes_cpp(SEXP nodesSEXP, SEXP sizeSEXP) {
@@ -127,6 +140,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_psoho_create_causlist_cpp", (DL_FUNC) &_psoho_create_causlist_cpp, 4},
     {"_psoho_cl_to_arc_matrix_cpp", (DL_FUNC) &_psoho_cl_to_arc_matrix_cpp, 3},
     {"_psoho_pos_plus_vel_cpp", (DL_FUNC) &_psoho_pos_plus_vel_cpp, 3},
+    {"_psoho_init_list_cpp", (DL_FUNC) &_psoho_init_list_cpp, 3},
     {"_psoho_rename_nodes_cpp", (DL_FUNC) &_psoho_rename_nodes_cpp, 2},
     {"_psoho_randomize_vl_cpp", (DL_FUNC) &_psoho_randomize_vl_cpp, 2},
     {"_psoho_pos_minus_pos_cpp", (DL_FUNC) &_psoho_pos_minus_pos_cpp, 3},

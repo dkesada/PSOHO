@@ -41,6 +41,16 @@ pos_plus_vel_cpp <- function(cl, vl, n_arcs) {
     .Call('_psoho_pos_plus_vel_cpp', PACKAGE = 'psoho', cl, vl, n_arcs)
 }
 
+#' Initialize the particles
+#' 
+#' @param nodes the names of the nodes
+#' @param size the size of the DBN
+#' @param n_inds the number of particles
+#' @return a list with the randomly initialized particles
+init_list_cpp <- function(nodes, size, n_inds) {
+    .Call('_psoho_init_list_cpp', PACKAGE = 'psoho', nodes, size, n_inds)
+}
+
 #' Return a list of nodes with the time slice appended up to the desired size
 #' of the network
 #' 

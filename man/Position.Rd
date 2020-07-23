@@ -3,168 +3,78 @@
 \name{Position}
 \alias{Position}
 \title{R6 class that defines DBNs as causality lists}
-\description{
-R6 class that defines DBNs as causality lists
+\arguments{
+\item{vl}{a Velocity object}
 
-R6 class that defines DBNs as causality lists
+\item{ps}{a Position object
+return the Velocity that gets this position to the new one}
+
+\item{nodes}{a character vector with the names of the nodes in the net}
+
+\item{size}{the desired size of the DBN}
+
+\item{net}{the DBN structure}
+
+\item{nodes_t_0}{a vector with the names of the nodes in t_0}
+}
+\value{
+A new 'causlist' object
+
+a dbn object
+
+the ordering of the nodes in t_0
+
+a causlist object
+
+a random dbn structure
+
+the fixed network
+}
+\description{
+Constructor of the 'causlist' class
+
+Translate the causality list into a DBN network
+
+Uses this object private causality list and transforms it into a DBN.
+
+Add a velocity to the position
+
+Given a Velocity object, add it to the current position.
+
+Given another position, returns the velocity that gets this position to the
+other.
+
+Return the static node ordering
+
+This function takes as input a dbn and return the node ordering of the
+variables inside a timeslice. This ordering is needed to understand a
+causal list.
+
+Translate a DBN into a causality list
+
+This function takes as input a network from a DBN and transforms the 
+structure into a causality list if it is a valid DBN. Valid DBNs have only
+inter-timeslice edges and only allow variables in t_0 to have parents.
+
+Generates a random DBN valid for causality list translation
+
+This function takes as input a list with the names of the nodes and the
+desired size of the network and returns a random DBN structure.
+
+Fixes a DBN structure to make it suitable for causality list translation
+
+This function takes as input a DBN structure and removes the 
+intra-timeslice arcs and the arcs that end in a node not in t_0.
 }
 \details{
 A causality list has a list with causal units, a size representing the
 Markovian order of the network and a specific node ordering.
 }
-\section{Super class}{
-\code{\link[psoho:Causlist]{psoho::Causlist}} -> \code{Position}
-}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Fields}{
+
 \describe{
 \item{\code{n_arcs}}{Number of arcs in the network}
 
 \item{\code{nodes}}{Names of the nodes in the network}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{n_arcs}}{Number of arcs in the network}
+}}
 
-\item{\code{nodes}}{Names of the nodes in the network}
-}
-\if{html}{\out{</div>}}
-}
-\section{Methods}{
-\subsection{Public methods}{
-\itemize{
-\item \href{#method-new}{\code{Position$new()}}
-\item \href{#method-get_n_arcs}{\code{Position$get_n_arcs()}}
-\item \href{#method-get_nodes}{\code{Position$get_nodes()}}
-\item \href{#method-bn_translate}{\code{Position$bn_translate()}}
-\item \href{#method-add_velocity}{\code{Position$add_velocity()}}
-\item \href{#method-subtract_position}{\code{Position$subtract_position()}}
-\item \href{#method-clone}{\code{Position$clone()}}
-}
-}
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="psoho" data-topic="Causlist" data-id="get_cl">}\href{../../psoho/html/Causlist.html#method-get_cl}{\code{psoho::Causlist$get_cl()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="psoho" data-topic="Causlist" data-id="get_ordering">}\href{../../psoho/html/Causlist.html#method-get_ordering}{\code{psoho::Causlist$get_ordering()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="psoho" data-topic="Causlist" data-id="get_size">}\href{../../psoho/html/Causlist.html#method-get_size}{\code{psoho::Causlist$get_size()}}\out{</span>}
-}
-\out{</details>}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
-\subsection{Method \code{new()}}{
-Constructor of the 'causlist' class
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Position$new(net, size, nodes = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{net}}{dbn or dbn.fit object defining the network}
-
-\item{\code{size}}{Number of timeslices of the DBN}
-
-\item{\code{nodes}}{A list with the names of the nodes in an order 
-If its not null, a random causlist will be generated for those nodes}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new 'causlist' object
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_n_arcs"></a>}}
-\if{latex}{\out{\hypertarget{method-get_n_arcs}{}}}
-\subsection{Method \code{get_n_arcs()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Position$get_n_arcs()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_nodes"></a>}}
-\if{latex}{\out{\hypertarget{method-get_nodes}{}}}
-\subsection{Method \code{get_nodes()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Position$get_nodes()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-bn_translate"></a>}}
-\if{latex}{\out{\hypertarget{method-bn_translate}{}}}
-\subsection{Method \code{bn_translate()}}{
-Translate the causality list into a DBN network
-
-Uses this object private causality list and transforms it into a DBN.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Position$bn_translate()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-a dbn object
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add_velocity"></a>}}
-\if{latex}{\out{\hypertarget{method-add_velocity}{}}}
-\subsection{Method \code{add_velocity()}}{
-Add a velocity to the position
-
-Given a Velocity object, add it to the current position.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Position$add_velocity(vl)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{vl}}{a Velocity object}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-subtract_position"></a>}}
-\if{latex}{\out{\hypertarget{method-subtract_position}{}}}
-\subsection{Method \code{subtract_position()}}{
-Given another position, returns the velocity that gets this position to the
-other.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Position$subtract_position(ps)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{ps}}{a Position object
-return the Velocity that gets this position to the new one}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Position$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
-}

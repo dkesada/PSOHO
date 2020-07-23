@@ -3,111 +3,28 @@
 \name{Causlist}
 \alias{Causlist}
 \title{R6 class that defines causal lists in the PSO}
-\description{
-R6 class that defines causal lists in the PSO
+\arguments{
+\item{ordering}{a vector with the names of the nodes in t_0}
 
-R6 class that defines causal lists in the PSO
+\item{size}{number of timeslices of the DBN}
+}
+\value{
+A new 'causlist' object
+}
+\description{
+Constructor of the 'Causlist' class
 }
 \details{
 The causal lists will be the base of the positions and the velocities
 in the pso part of the algorithm.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Fields}{
+
 \describe{
 \item{\code{cl}}{List of causal units}
 
 \item{\code{size}}{Size of the DBN}
 
 \item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{cl}}{List of causal units}
+}}
 
-\item{\code{size}}{Size of the DBN}
-
-\item{\code{ordering}}{String vector defining the order of the nodes in a timeslice}
-}
-\if{html}{\out{</div>}}
-}
-\section{Methods}{
-\subsection{Public methods}{
-\itemize{
-\item \href{#method-new}{\code{Causlist$new()}}
-\item \href{#method-get_cl}{\code{Causlist$get_cl()}}
-\item \href{#method-get_ordering}{\code{Causlist$get_ordering()}}
-\item \href{#method-get_size}{\code{Causlist$get_size()}}
-\item \href{#method-clone}{\code{Causlist$clone()}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
-\subsection{Method \code{new()}}{
-Constructor of the 'Causlist' class
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Causlist$new(ordering, size)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{ordering}}{a vector with the names of the nodes in t_0}
-
-\item{\code{size}}{number of timeslices of the DBN}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new 'causlist' object
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_cl"></a>}}
-\if{latex}{\out{\hypertarget{method-get_cl}{}}}
-\subsection{Method \code{get_cl()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Causlist$get_cl()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_ordering"></a>}}
-\if{latex}{\out{\hypertarget{method-get_ordering}{}}}
-\subsection{Method \code{get_ordering()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Causlist$get_ordering()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_size"></a>}}
-\if{latex}{\out{\hypertarget{method-get_size}{}}}
-\subsection{Method \code{get_size()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Causlist$get_size()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Causlist$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
-}
