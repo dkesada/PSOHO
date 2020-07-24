@@ -33,7 +33,14 @@ dummy <- function(ordering, size, n_inds){
   }
   print(Sys.time() - a)
   
+  a <- Sys.time()
+  res <- vector(mode = "list", length = n_inds)
+  res <- foreach(1:n_inds, .export = "Position") %dopar% {Position$new(NULL, size, ordering)}
+  print(Sys.time() - a)
+  
   # Both initializations take the same amount of time, so no need to go down to C++
+  # I'll try to speed things up by using 'RcppThread', which looks nice
+  # The 'foreach' initialization performs awfully slow, maybe due to it combining the results of each iteration with the 'c' operator
   
   return(res)
 }
