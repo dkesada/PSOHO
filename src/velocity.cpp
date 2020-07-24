@@ -145,7 +145,7 @@ Rcpp::List cte_times_vel_cpp(float k, Rcpp::List &vl, unsigned int abs_op, int m
   
   // Process the k and max_op
   if(k < 0){
-    k = abs(k);
+    k = fabs(k);
     invert = true;
   }
   

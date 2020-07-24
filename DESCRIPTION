@@ -1,7 +1,7 @@
 Package: psoho
 Type: Package
 Title: Particle Swarm Optimization Higher-Order Dynamic Bayesian Network Structure Learning
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Date: 2020-07-01
 Author: David Quesada
 Maintainer: David Quesada <dkesada@gmail.com>
@@ -16,7 +16,7 @@ Imports: Rcpp (>= 1.0.4),
   R6 (>= 2.4.1)
 LinkingTo: Rcpp
 Encoding: UTF-8
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     testthat
 Roxygen: list(r6 = FALSE)

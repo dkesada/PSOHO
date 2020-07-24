@@ -2,7 +2,7 @@
 % Please edit documentation in R/pso_main.R
 \name{dummy}
 \alias{dummy}
-\title{Debug function for C++ code}
+\title{Dummy function for C++ code}
 \usage{
 dummy(ordering, size, n_inds)
 }
@@ -11,8 +11,8 @@ dummy(ordering, size, n_inds)
 
 \item{size}{Number of timeslices of the DBN. Markovian order 1 equals size 2, and so on.}
 
-\item{n_ind}{Number of particles used in the algorithm.}
+\item{n_inds}{Number of particles used in the algorithm.}
 }
 \description{
-Debug function for C++ code
+Dummy function for C++ code
 }

@@ -19,7 +19,7 @@ learn_dbn_structure_pso <- function(dt, size, n_ind = 30, n_it = 20, score = "bg
 #' Dummy function for C++ code
 #' @param ordering Names of the nodes in the network
 #' @param size Number of timeslices of the DBN. Markovian order 1 equals size 2, and so on.
-#' @param n_ind Number of particles used in the algorithm.
+#' @param n_inds Number of particles used in the algorithm.
 #' @export
 dummy <- function(ordering, size, n_inds){
   a <- Sys.time()
