@@ -22,9 +22,9 @@ learn_dbn_structure_pso <- function(dt, size, n_ind = 30, n_it = 20, score = "bg
 #' @param n_inds Number of particles used in the algorithm.
 #' @export
 dummy <- function(ordering, size, n_inds){
-  a <- Sys.time()
-  res <- init_list_cpp(ordering, size, n_inds)
-  print(Sys.time() - a)
+  # a <- Sys.time()
+  # res <- init_list_cpp(ordering, size, n_inds)
+  # print(Sys.time() - a)
   
   a <- Sys.time()
   res <- vector(mode = "list", length = n_inds)
@@ -33,25 +33,40 @@ dummy <- function(ordering, size, n_inds){
   }
   print(Sys.time() - a)
   
-  cl <- makeCluster(detectCores() - 1)
-  registerDoParallel(cl)
-  a <- Sys.time()
-  res <- vector(mode = "list", length = n_inds)
-  res <- foreach(1:n_inds, .export = "Position") %dopar% {Position$new(NULL, size, ordering)}
-  print(Sys.time() - a)
-  stopCluster(cl)
+  # cl <- makeCluster(detectCores() - 1, type = "FORK")
+  # registerDoParallel(cl)
+  # a <- Sys.time()
+  # res <- vector(mode = "list", length = n_inds)
+  # res <- foreach(i = 1:n_inds, .combine = list, .export = "Position") %dopar% {Position$new(NULL, size, ordering)}
+  # print(Sys.time() - a)
+  # stopCluster(cl)
   
-  cl <- makeCluster(detectCores() - 1)
-  clusterExport(cl, c("Position", "size", "ordering"))
-  a <- Sys.time()
-  res <- vector(mode = "list", length = n_inds)
-  res <- parLapply(cl,1:n_inds, function(i){Position$new(NULL, size, ordering)})
-  print(Sys.time() - a)
-  stopCluster(cl)
+  # cl <- makeCluster(detectCores() - 1, type = "FORK")
+  # clusterExport(cl, c("Position", "size", "ordering"))
+  # a <- Sys.time()
+  # res <- vector(mode = "list", length = n_inds)
+  # res <- parLapply(cl,1:n_inds, function(i){Position$new(NULL, size, ordering)})
+  # print(Sys.time() - a)
+  # stopCluster(cl)
   
+  # cl <- makeCluster(detectCores() - 1)
+  # clusterExport(cl, c("Position", "size", "ordering"))
+  # a <- Sys.time()
+  # res <- vector(mode = "list", length = n_inds)
+  # res <- parLapply(cl,1:n_inds, function(i){Position$new(NULL, size, ordering)})
+  # print(Sys.time() - a)
+  # stopCluster(cl)
   
-  # Both initializations take the same amount of time, so no need to go down to C++
-  # I'll try to speed things up by using 'RcppThread', which looks nice
+  # registerDoMC(cores = detectCores() - 1)
+  # a <- Sys.time()
+  # res <- vector(mode = "list", length = n_inds)
+  # res <- foreach(1:n_inds, .export = "Position") %dopar% {Position$new(NULL, size, ordering)}
+  # print(Sys.time() - a)
+  
+  # Sequential initialization in C++ is equivalent or worse than sequential in R for n_inds < 200
+  # Parallel with parLapply is ok for n_inds > 600, but that amount of particles is unrealistic
+  # Parallel with parLapply and FORK dominates the other options, but only works on linux
+  # I'll try to speed things up by using 'RcppThread', which looks nice --> Massive R session crashes due to calling R code from different threads at the same time
   # The 'foreach' initialization performs awfully slow, maybe due to it combining the results of each iteration with the 'c' operator
   # The parLapply works better than the classical approach for more than 50 particles
   

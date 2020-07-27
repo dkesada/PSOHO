@@ -13,7 +13,8 @@ License: MIT + file LICENSE
 Imports: Rcpp (>= 1.0.4),
   bnlearn (>= 4.5),
   dbnR (>= 0.4.5),
-  R6 (>= 2.4.1)
+  R6 (>= 2.4.1),
+  parallel (>= 4.0.2)
 LinkingTo: Rcpp
 Encoding: UTF-8
 RoxygenNote: 7.1.1
