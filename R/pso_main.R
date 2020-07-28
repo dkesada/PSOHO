@@ -9,10 +9,11 @@
 #' @param score The score used to evaluate the structures
 #' @return A 'dbn' object with the structure of the best network found
 #' @export
-learn_dbn_structure_pso <- function(dt, size, n_ind = 30, n_it = 20, score = "bge"){
+learn_dbn_structure_pso <- function(dt, size, n_ind = 50, n_it = 20, score = "bge"){
   #initial_size_check(size) --ICO-Merge
   #initial_df_check(dt) --ICO-Merge
 }
+
 
 #' Dummy function for C++ code
 #' 
@@ -28,9 +29,8 @@ dummy <- function(ordering, size, n_inds){
   
   a <- Sys.time()
   res <- vector(mode = "list", length = n_inds)
-  for(i in 1:n_inds){
-    res[[i]] = Position$new(NULL, size, ordering)
-  }
+  for(i in 1:n_inds)
+    res[[i]] <- Particle$new(ordering, size)
   print(Sys.time() - a)
   
   # cl <- makeCluster(detectCores() - 1, type = "FORK")
@@ -41,13 +41,12 @@ dummy <- function(ordering, size, n_inds){
   # print(Sys.time() - a)
   # stopCluster(cl)
   
-  # cl <- makeCluster(detectCores() - 1, type = "FORK")
-  # clusterExport(cl, c("Position", "size", "ordering"))
-  # a <- Sys.time()
-  # res <- vector(mode = "list", length = n_inds)
-  # res <- parLapply(cl,1:n_inds, function(i){Position$new(NULL, size, ordering)})
-  # print(Sys.time() - a)
-  # stopCluster(cl)
+  cl <- parallel::makeCluster(detectCores() / 2, type = "FORK") # Selecting the appropriate number of threads is vital to performance
+  a <- Sys.time()
+  res <- vector(mode = "list", length = n_inds)
+  res <- parLapply(cl,1:n_inds, function(i){Particle$new(ordering, size)})
+  print(Sys.time() - a)
+  stopCluster(cl)
   
   # cl <- makeCluster(detectCores() - 1)
   # clusterExport(cl, c("Position", "size", "ordering"))

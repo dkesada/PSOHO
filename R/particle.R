@@ -14,6 +14,7 @@ Particle <- R6::R6Class("Particle",
      
      private$ps <- Position$new(NULL, size, ordering)
      private$vl <- Velocity$new(private$ps$get_ordering(), size)
+     private$vl$randomize_velocity()
    },
    
    #' @description 
@@ -44,7 +45,7 @@ Particle <- R6::R6Class("Particle",
    ps = NULL,
    #' @field cl velocity of the particle
    vl = NULL,
-   #' @field lb_cte local best score obtained
+   #' @field lb local best score obtained
    lb = NULL
  )
 )
