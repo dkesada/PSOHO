@@ -21,6 +21,7 @@ On a personal note, this repository will also serve me as a first serious approa
 Roxygen's interaction with R6 objects is kind of wonky. It kind of works, but at the same time it kind of doesn't. You can document R6 objects, but when you are bulding the documentation of the classes and their methods it showers you with warnings. Afterwards, you get the tooltips for the constructor of the class and the methods all mixed up, and when you are calling a method from an instantiated object you get no helping tooltip at all.
 
 ![alt text](https://raw.githubusercontent.com/dkesada/psoho/master/media/r6_roxygen.png)
+
 ### Rcpp inside R6 objects
 Incorporating Rcpp inside R6 objects is as straightforward as it looks. No problems in that regard.
 

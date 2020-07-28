@@ -30,8 +30,11 @@ helping tooltip at all.
 
 ![alt
 text](https://raw.githubusercontent.com/dkesada/psoho/master/media/r6_roxygen.png)
-\#\#\# Rcpp inside R6 objects Incorporating Rcpp inside R6 objects is as
-straightforward as it looks. No problems in that regard.
+
+### Rcpp inside R6 objects
+
+Incorporating Rcpp inside R6 objects is as straightforward as it looks.
+No problems in that regard.
 
 ### Creating R6 objects from C++
 
@@ -62,7 +65,7 @@ from within C++. The main idea is that R6 objects are essentially
 environments, and so you can import the function to create them from
 your package and then call it. This was cool, not gonna lie.
 
-### Discrete seacrh space and the ‘pso’ package
+### Discrete search space and the ‘pso’ package
 
 Given that I have specific operators for Positions and Velocities and my
 search space is not continuous, I can’t use packages like ‘pso’ for the
@@ -86,7 +89,7 @@ is alright.
 
 ### C++ parallelization: ‘RcppThread’ | ‘RcppParallel’ + R and Rcpp
 
-The ‘RcppThread’ or ‘RcppParallel’ packages seem interesting, but
+The ‘RcppThread’ and ‘RcppParallel’ packages seem interesting, but
 combining them with calls to R or Rcpp APIs (e.g. Rcpp::List) ends up in
 unavoidable (and unpredictable) R session crashes. They should both be
 used with thread-safe data structures, and Rcpp’s ones are not. I also
@@ -97,7 +100,7 @@ because the garbage collector goes kind of crazy on your non-thread-safe
 data structures, and in the end it crashes at some point.
 
 If you plan on using parallel computing in C++, **you should plan ahead
-to not use non-thread-safe data structures**. Unless I’m doing some pure
+to only use thread-safe data structures**. Unless I’m doing some pure
 C++ computations, I’ll probably leave C++ parallelization out of this
 project and stick to R code parallelization if needed. Even so, I was
 meaning to try out both ‘RcppThread’ and ‘RcppParallel’ anyways, and I
