@@ -10,7 +10,7 @@ Rcpp::List initialize_cl_cpp(StringVector &ordering, unsigned int size) {
   Rcpp::List res (size - 1);
   Rcpp::StringVector new_names;
   
-  // Initialization of the velocity
+  // Initialization of the causality list
   for(unsigned int i = 0; i < size - 1; i++){
     Rcpp::List vel_list(ordering.size());
     new_names = rename_slices(ordering, i + 1);
