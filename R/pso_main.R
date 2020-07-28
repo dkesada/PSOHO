@@ -41,7 +41,7 @@ dummy <- function(ordering, size, n_inds){
   # print(Sys.time() - a)
   # stopCluster(cl)
   
-  cl <- parallel::makeCluster(detectCores() / 2, type = "FORK") # Selecting the appropriate number of threads is vital to performance
+  cl <- parallel::makeCluster(parallel::detectCores() / 2, type = "PSOCK") # Selecting the appropriate number of threads is vital to performance
   a <- Sys.time()
   res <- vector(mode = "list", length = n_inds)
   res <- parLapply(cl,1:n_inds, function(i){Particle$new(ordering, size)})
