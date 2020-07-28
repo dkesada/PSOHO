@@ -4,7 +4,7 @@
 \alias{learn_dbn_structure_pso}
 \title{Learn a DBN structure with a PSO approach}
 \usage{
-learn_dbn_structure_pso(dt, size, n_ind = 30, n_it = 20, score = "bge")
+learn_dbn_structure_pso(dt, size, n_ind = 50, n_it = 20, score = "bge")
 }
 \arguments{
 \item{dt}{a data.table with the data of the network to be trained. Do not previously fold it with the 'dbnR' package.}
