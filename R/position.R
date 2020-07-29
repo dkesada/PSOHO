@@ -10,7 +10,7 @@ Position <- R6::R6Class("Position",
     #' Constructor of the 'causlist' class
     #' @param net dbn or dbn.fit object defining the network
     #' @param size Number of timeslices of the DBN
-    #' @param nodes A list with the names of the nodes in an order 
+    #' @param nodes A list with the names of the nodes in the network
     #' If its not null, a random causlist will be generated for those nodes
     #' @return A new 'causlist' object
     initialize = function(net, size, nodes = NULL){
@@ -117,8 +117,16 @@ Position <- R6::R6Class("Position",
     #' @param size the desired size of the DBN
     #' @return a random dbn structure
     generate_random_network = function(nodes, size){
-      nodes_t_0 <- unlist(lapply(nodes, function(x){paste0(x, "_t_0")}))
-      new_nodes <- rename_nodes_cpp(nodes, size)
+      idx <- grep("t_0", nodes)
+      
+      if(length(idx) == 0){
+        nodes_t_0 <- unlist(lapply(nodes, function(x){paste0(x, "_t_0")}))
+        new_nodes <- rename_nodes_cpp(nodes, size)
+      }
+      else{
+        nodes_t_0 <- names(dt)[idx]
+        new_nodes <- c(names(dt)[-idx], nodes_t_0)
+      }
       
       net <- bnlearn::random.graph(new_nodes)
       net <- private$prune_invalid_arcs(net, nodes_t_0)

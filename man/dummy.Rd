@@ -2,7 +2,7 @@
 % Please edit documentation in R/pso_main.R
 \name{dummy}
 \alias{dummy}
-\title{Dummy function for C++ code}
+\title{Dummy function for testing parallelism and C++ code}
 \usage{
 dummy(ordering, size, n_inds)
 }
@@ -14,5 +14,5 @@ dummy(ordering, size, n_inds)
 \item{n_inds}{Number of particles used in the algorithm.}
 }
 \description{
-Dummy function for C++ code
+Dummy function for testing parallelism and C++ code
 }

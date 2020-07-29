@@ -4,14 +4,6 @@
 \alias{PsoCtrl}
 \title{R6 class that defines the PSO controller}
 \arguments{
-\item{ordering}{a vector with the names of the nodes in t_0}
-
-\item{size}{number of timeslices of the DBN}
-
-\item{n_inds}{number of particles that the algorithm will simultaneously process}
-
-\item{n_threads}{number of threads used during parallel sections. By default, half of the available cores}
-
 \item{n_it}{maximum number of iterations of the pso algorithm}
 
 \item{in_cte}{parameter that varies the effect of the inertia}
@@ -19,12 +11,40 @@
 \item{gb_cte}{parameter that varies the effect of the global best}
 
 \item{lb_cte}{parameter that varies the effect of the local best}
+
+\item{n_threads}{number of threads used during parallel sections. By default, half of the available cores}
+
+\item{ordering}{a vector with the names of the nodes in t_0}
+
+\item{size}{number of timeslices of the DBN}
+
+\item{n_inds}{number of particles that the algorithm will simultaneously process}
+
+\item{dt}{the dataset used to evaluate the position}
 }
 \value{
 A new 'PsoCtrl' object
+
+the cluster attribute
+
+the size attribute
 }
 \description{
 Constructor of the 'PsoCtrl' class
+
+Getter of the cluster attribute
+
+Transforms the best position found into a bn structure and returns it
+
+Stops the cluster used for parallel operations. Should be called when the object is not needed anymore.
+
+Main function of the pso algorithm.
+
+Initialize the cluster for parallel operations. On halt for now, it's way too slow for some reason.
+
+Initialize the particles for the algorithm to random positions and velocities.
+
+Evaluate the particles and update the global best
 }
 \details{
 The controller will encapsulate the particles and run the algorithm
@@ -44,8 +64,8 @@ The controller will encapsulate the particles and run the algorithm
 
 \item{\code{lb_cte}}{parameter that varies the effect of the local best}
 
-\item{\code{b_ps}}{best position found}
+\item{\code{b_ps}}{global best position found}
 
-\item{\code{b_scr}}{best score obtained}
+\item{\code{b_scr}}{global best score obtained}
 }}
 

@@ -4,18 +4,33 @@
 \alias{learn_dbn_structure_pso}
 \title{Learn a DBN structure with a PSO approach}
 \usage{
-learn_dbn_structure_pso(dt, size, n_ind = 50, n_it = 20, score = "bge")
+learn_dbn_structure_pso(
+  dt,
+  size,
+  n_inds = 50,
+  n_it = 50,
+  in_cte = 0.5,
+  gb_cte = 0.5,
+  lb_cte = 0.5,
+  n_threads = NULL
+)
 }
 \arguments{
 \item{dt}{a data.table with the data of the network to be trained. Do not previously fold it with the 'dbnR' package.}
 
 \item{size}{Number of timeslices of the DBN. Markovian order 1 equals size 2, and so on.}
 
-\item{n_ind}{Number of particles used in the algorithm.}
+\item{n_inds}{Number of particles used in the algorithm.}
 
 \item{n_it}{Maximum number of iterations that the algorithm can perform.}
 
-\item{score}{The score used to evaluate the structures}
+\item{in_cte}{parameter that varies the effect of the inertia}
+
+\item{gb_cte}{parameter that varies the effect of the global best}
+
+\item{lb_cte}{parameter that varies the effect of the local best}
+
+\item{n_threads}{number of threads used during parallel sections. By default, half of the available cores}
 }
 \value{
 A 'dbn' object with the structure of the best network found

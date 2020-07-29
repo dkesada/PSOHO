@@ -34,5 +34,7 @@ A particle has a Position, a Velocity and a local best
 \item{\code{cl}}{velocity of the particle}
 
 \item{\code{lb}}{local best score obtained}
+
+\item{\code{lb_ps}}{local best position found}
 }}
 
