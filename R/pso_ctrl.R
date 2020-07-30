@@ -21,7 +21,7 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
       
       #private$initialize_cluster(n_threads) # A lot slower than the sequential approach. Dropped for now, I'll check it out again with the full algorithm.
       private$initialize_particles(ordering, size, n_inds)
-      private$gb_scr <- Inf
+      private$gb_scr <- -Inf
       private$n_it <- n_it
       private$in_cte <- in_cte
       private$gb_cte <- gb_cte
@@ -107,7 +107,7 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
     evaluate_particles = function(dt){
       for(p in private$parts){
         scr <- p$eval_ps(dt)
-        if(scr < private$gb_scr){
+        if(scr > private$gb_scr){
           private$gb_scr <- scr
           private$gb_ps <- p$get_ps()
         }

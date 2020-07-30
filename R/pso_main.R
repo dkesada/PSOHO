@@ -88,3 +88,10 @@ dummy <- function(ordering, size, n_inds){
   
   return(res)
 }
+
+eval_sol <- function(real, sol){
+  real_arcs <- apply(real$arcs, 1, function(x){paste0(x[1], x[2])})
+  sol_arcs <- apply(sol$arcs, 1, function(x){paste0(x[1], x[2])})
+  
+  return(sum(real_arcs %in% sol_arcs))
+}

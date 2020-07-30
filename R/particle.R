@@ -15,7 +15,7 @@ Particle <- R6::R6Class("Particle",
      private$ps <- Position$new(NULL, size, ordering)
      private$vl <- Velocity$new(private$ps$get_ordering(), size)
      private$vl$randomize_velocity()
-     private$lb <- Inf
+     private$lb <- -Inf
    },
    
    #' @description 
@@ -28,7 +28,7 @@ Particle <- R6::R6Class("Particle",
    eval_ps = function(dt){
      struct <- private$ps$bn_translate()
      score <- bnlearn::score(struct, dt, type = "bge") # For now, unoptimized bge
-     if(score < private$lb){
+     if(score > private$lb){
         private$lb <- score 
         private$lb_ps <- private$ps
      }
