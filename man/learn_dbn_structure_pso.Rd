@@ -9,7 +9,7 @@ learn_dbn_structure_pso(
   size,
   n_inds = 50,
   n_it = 50,
-  in_cte = 0.5,
+  in_cte = 1,
   gb_cte = 0.5,
   lb_cte = 0.5,
   n_threads = NULL

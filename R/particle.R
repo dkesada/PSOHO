@@ -27,7 +27,7 @@ Particle <- R6::R6Class("Particle",
    #' @return The score of the current position
    eval_ps = function(dt){
      struct <- private$ps$bn_translate()
-     score <- bnlearn::score(struct, dt, type = "bge") # For now, unoptimized bge
+     score <- bnlearn::score(struct, dt, type = "bge") # For now, unoptimized bge. Any Gaussian score could be used
      if(score > private$lb){
         private$lb <- score 
         private$lb_ps <- private$ps
@@ -36,7 +36,7 @@ Particle <- R6::R6Class("Particle",
      return(score)
    },
    
-   update_state = function(in_cte, gb_cte, gb_ps, lb_cte){
+   update_state = function(in_cte, gb_cte, gb_ps, lb_cte){ # max_vl = 20
       # 1.- Inertia of previous velocity
       private$vl$cte_times_velocity(in_cte)
       # 2.- Velocity from global best
@@ -50,7 +50,9 @@ Particle <- R6::R6Class("Particle",
       # 4.- New velocity
       private$vl$add_velocity(vl1)
       private$vl$add_velocity(vl2)
-      # 5.- Reduce velocity if higher than maximum (TODO)
+      # 5.- Reduce velocity if higher than maximum. Awful results when the limit is low, so dropped for now.
+      # if(private$vl$get_abs_op() > max_vl)
+      #    private$vl$cte_times_velocity(max_vl / private$vl$get_abs_op())
       # 6.- New position
       private$ps$add_velocity(private$vl)
       # 7.- If a node has more parents than the maximum, reduce them (TODO)

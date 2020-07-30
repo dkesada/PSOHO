@@ -13,7 +13,7 @@
 #' @return A 'dbn' object with the structure of the best network found
 #' @export
 learn_dbn_structure_pso <- function(dt, size, n_inds = 50, n_it = 50,
-                                    in_cte = 0.5, gb_cte = 0.5, lb_cte = 0.5, n_threads = NULL){
+                                    in_cte = 1, gb_cte = 0.5, lb_cte = 0.5, n_threads = NULL){
   #initial_size_check(size) --ICO-Merge
   #initial_df_check(dt) --ICO-Merge
   

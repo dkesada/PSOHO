@@ -50,15 +50,16 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
     run = function(dt){
       # Missing security checks --ICO-Merge
       private$evaluate_particles(dt)
-      
+      pb <- utils::txtProgressBar(min = 0, max = private$n_it, style = 3)
       # Main loop of the algorithm.
-      for(i in private$n_it){
+      for(i in 1:private$n_it){
         # Inside loop. Update each particle
         for(p in private$parts)
           p$update_state(private$in_cte, private$gb_cte, private$gb_ps, private$lb_cte)
         private$evaluate_particles(dt)
+        utils::setTxtProgressBar(pb, i)
       }
-      
+      close(pb)
     }
   ),
   private = list(
