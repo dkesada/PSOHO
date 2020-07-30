@@ -69,7 +69,10 @@ your package and then call it. This was cool, not gonna lie.
 
 Given that I have specific operators for Positions and Velocities and my
 search space is not continuous, I can’t use packages like ‘pso’ for the
-particle swarm main functionallity.
+particle swarm main functionallity. It’s a good thing that a relatively
+‘naive’ implementation of a pso algorithm is also relatively easy to
+code. I’ll try parallelizing the evaluation of the particles to see if
+there’s any improvement in performance.
 
 ### R parallelization: ‘foreach’ and ‘parLapply’
 
