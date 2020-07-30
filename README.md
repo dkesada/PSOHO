@@ -16,7 +16,13 @@ On a personal note, this repository will also serve me as a first
 serious approach to PSO and to R6 objects, both of which I’ve been
 meaning to invest some time in for a while now.
 
-## Some preliminary results
+Now that the implementation of the algorithm is finished, all that’s
+left is to perform some more tests, write some examples, polish the docs
+and include it in ‘dbnR’. The final performance is quite good, and I
+gained some valuable insights on R6 objects and parallelization in R and
+C++.
+
+## Some conclusions
 
 ### Roxygen2 + R6
 
@@ -71,8 +77,7 @@ Given that I have specific operators for Positions and Velocities and my
 search space is not continuous, I can’t use packages like ‘pso’ for the
 particle swarm main functionallity. It’s a good thing that a relatively
 ‘naive’ implementation of a pso algorithm is also relatively easy to
-code. I’ll try parallelizing the evaluation of the particles to see if
-there’s any improvement in performance.
+code.
 
 ### R parallelization: ‘foreach’ and ‘parLapply’
 
@@ -80,15 +85,40 @@ Using ‘foreach’ for the first particles initialization results in awful
 performance, maybe due to combining the results with the ‘c’ operator.
 
 The ‘parLapply’ function works much more efficiently than the ‘foreach’
-with %dopar%. This is even more so if you are in unix systems and can
-use FORK as the type of cluster. The ‘doMC’ approach is equivalent to
-this one.
+with %dopar% in this case. This is even more so if you are in unix
+systems and can use FORK as the type of cluster. The ‘doMC’ approach is
+equivalent to this one.
 
 Improvement in performance can be seen, on a general note, for networks
 with 20+ variables in each time slice, populations with more than 200
 particles, or networks with Markovian order greater than 5. In smaller
 cases, the performance is either very similar or slightly worse, which
 is alright.
+
+Trying parallelization inside the PsoController ended up being painfully
+slow. The interaction between R6 objects and parallelization inside them
+results in weird performance.
+
+As a heads up, one should not use parallelization in R when:
+
+  - Trying to initialize a list or some other data structure, as
+    functions like ‘foreach’ and ‘parlapply’ cannot modify the original
+    data structure and will copy it several times across workers. Trying
+    to modify this local copies will not have any effect on the original
+    data structure. You can try and return the values, but it’s slow and
+    the consequent concatenation will make your initial data structure
+    kind of useless and duplicated.
+
+  - Trying to do simple operations. The time spent on the parallel
+    overhead will be way too high compared to the time spent simply
+    doing those operations sequentially.
+
+  - Trying to parallelize a loop that loops over too many elements. The
+    performance degrades even further.
+
+On final note, parallelization is way more effective when you can do
+forks. But then again, forks are not recommended for code in production,
+as they can be unstable and hard to debug. So, all in all, meh.
 
 ### C++ parallelization: ‘RcppThread’ | ‘RcppParallel’ + R and Rcpp
 
@@ -105,7 +135,4 @@ data structures, and in the end it crashes at some point.
 If you plan on using parallel computing in C++, **you should plan ahead
 to only use thread-safe data structures**. Unless I’m doing some pure
 C++ computations, I’ll probably leave C++ parallelization out of this
-project and stick to R code parallelization if needed. Even so, I was
-meaning to try out both ‘RcppThread’ and ‘RcppParallel’ anyways, and I
-got some useful tests and insights for future projects, so that’s
-something.
+project. I’m itching to try it in some other project, though.

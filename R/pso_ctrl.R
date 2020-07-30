@@ -13,13 +13,11 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
     #' @param in_cte parameter that varies the effect of the inertia
     #' @param gb_cte parameter that varies the effect of the global best
     #' @param lb_cte parameter that varies the effect of the local best
-    #' @param n_threads number of threads used during parallel sections. By default, half of the available cores
     #' @return A new 'PsoCtrl' object
-    initialize = function(ordering, size, n_inds, n_it, in_cte, gb_cte, lb_cte, n_threads = NULL){
+    initialize = function(ordering, size, n_inds, n_it, in_cte, gb_cte, lb_cte){
       #initial_size_check(size) --ICO-Merge
       # Missing security checks --ICO-Merge
       
-      #private$initialize_cluster(n_threads) # A lot slower than the sequential approach. Dropped for now, I'll check it out again with the full algorithm.
       private$initialize_particles(ordering, size, n_inds)
       private$gb_scr <- -Inf
       private$n_it <- n_it
@@ -39,12 +37,6 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
     get_best_network = function(){return(private$gb_ps$bn_translate())},
     
     #' @description 
-    #' Stops the cluster used for parallel operations. Should be called when the object is not needed anymore.
-    stop_cluster = function(){
-      parallel::stopCluster(private$cl)
-    },
-    
-    #' @description 
     #' Main function of the pso algorithm.
     #' @param dt the dataset from which the structure will be learned
     run = function(dt){
@@ -56,6 +48,7 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
         # Inside loop. Update each particle
         for(p in private$parts)
           p$update_state(private$in_cte, private$gb_cte, private$gb_ps, private$lb_cte)
+        
         private$evaluate_particles(dt)
         utils::setTxtProgressBar(pb, i)
       }
@@ -79,16 +72,6 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
     gb_ps = NULL,
     #' @field b_scr global best score obtained
     gb_scr = NULL,
-    
-    #' @description 
-    #' Initialize the cluster for parallel operations. On halt for now, it's way too slow for some reason.
-    #' @param n_threads number of threads used during parallel sections. By default, half of the available cores
-    initialize_cluster = function(n_threads){
-      if(is.null(n_threads))
-        private$cl <- parallel::makeCluster(parallel::detectCores() / 2, "PSOCK")
-      else
-        private$cl <- parallel::makeCluster(n_threads, "PSOCK")
-    },
     
     #' @description 
     #' Initialize the particles for the algorithm to random positions and velocities.

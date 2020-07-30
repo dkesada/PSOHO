@@ -12,8 +12,6 @@
 
 \item{lb_cte}{parameter that varies the effect of the local best}
 
-\item{n_threads}{number of threads used during parallel sections. By default, half of the available cores}
-
 \item{ordering}{a vector with the names of the nodes in t_0}
 
 \item{size}{number of timeslices of the DBN}
@@ -36,11 +34,7 @@ Getter of the cluster attribute
 
 Transforms the best position found into a bn structure and returns it
 
-Stops the cluster used for parallel operations. Should be called when the object is not needed anymore.
-
 Main function of the pso algorithm.
-
-Initialize the cluster for parallel operations. On halt for now, it's way too slow for some reason.
 
 Initialize the particles for the algorithm to random positions and velocities.
 
