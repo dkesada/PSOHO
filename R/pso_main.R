@@ -9,7 +9,6 @@
 #' @param in_cte parameter that varies the effect of the inertia
 #' @param gb_cte parameter that varies the effect of the global best
 #' @param lb_cte parameter that varies the effect of the local best
-#' @param n_threads number of threads used during parallel sections. By default, half of the available cores
 #' @return A 'dbn' object with the structure of the best network found
 #' @export
 learn_dbn_structure_pso <- function(dt, size, n_inds = 50, n_it = 50,

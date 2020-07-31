@@ -28,8 +28,6 @@ learn_dbn_structure_pso(
 \item{gb_cte}{parameter that varies the effect of the global best}
 
 \item{lb_cte}{parameter that varies the effect of the local best}
-
-\item{n_threads}{number of threads used during parallel sections. By default, half of the available cores}
 }
 \value{
 A 'dbn' object with the structure of the best network found
