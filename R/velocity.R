@@ -4,7 +4,6 @@
 #' a causal unit is a pair (v, node) with v being either 0, 1 or -1. 0 means 
 #' that arc remained the same, 1 means that arc was added and -1 means that arc 
 #' was deleted.
-#' @export
 Velocity <- R6::R6Class("Velocity",
   inherit = Causlist,
   public = list(

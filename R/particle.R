@@ -1,7 +1,6 @@
 #' R6 class that defines a Particle in the PSO algorithm
 #' 
 #' A particle has a Position, a Velocity and a local best
-#' @export
 Particle <- R6::R6Class("Particle",
  public = list(
    #' @description 

@@ -2,7 +2,6 @@
 #' 
 #' A causality list has a list with causal units, a size representing the
 #' Markovian order of the network and a specific node ordering.
-#' @export
 Position <- R6::R6Class("Position", 
   inherit = Causlist,
   public = list(

@@ -1,7 +1,6 @@
 #' R6 class that defines the PSO controller
 #' 
 #' The controller will encapsulate the particles and run the algorithm
-#' @export
 PsoCtrl <- R6::R6Class("PsoCtrl",
   public = list(
     #' @description 
