@@ -17,7 +17,7 @@ learn_dbn_structure_pso(
 )
 }
 \arguments{
-\item{dt}{a data.table with the data of the network to be trained. Do not previously fold it with the 'dbnR' package.}
+\item{dt}{a data.table with the data of the network to be trained. Previously folded with the 'dbnR' package or other means.}
 
 \item{size}{Number of timeslices of the DBN. Markovian order 1 equals size 2, and so on.}
 
@@ -30,11 +30,19 @@ learn_dbn_structure_pso(
 \item{gb_cte}{parameter that varies the effect of the global best}
 
 \item{lb_cte}{parameter that varies the effect of the local best}
+
+\item{v_probs}{vector that defines the random velocity initialization probabilities}
+
+\item{r_probs}{vector that defines the range of random variation of gb_cte and lb_cte}
 }
 \value{
 A 'dbn' object with the structure of the best network found
 }
 \description{
 Given a dataset and the desired Markovian order, this function returns a DBN
-structure ready to be fitted with the 'dbnR' package.
+structure ready to be fitted with the 'dbnR' package. It requires a 'folded' dataset,
+meaning that all variables have to be in the format 'xxxx_t_y', where 'xxxx' is 
+the name of the variable and 'y' is the time-slice of the variable. This folding
+can be done manually by shifting the columns and renaming them or automatically
+via the 'dbnR' package.
 }
