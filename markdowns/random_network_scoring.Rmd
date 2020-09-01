@@ -46,7 +46,7 @@ print(bnlearn::score(struct, dt, type = "bge"))
 
 ```
 
-A network representing the real structure that generated the data obtains a bge score of 23.7k, while randomly generated networks get bge values around the -27k mark.
+A network representing the real structure that generated the data obtains a bge score of -23.7k, while randomly generated networks get bge values around the -27k mark.
 
 ```{r psoho}
 
@@ -54,7 +54,8 @@ eval_sol <- function(real, sol){
   real_arcs <- apply(real$arcs, 1, function(x){paste0(x[1], x[2])})
   sol_arcs <- apply(sol$arcs, 1, function(x){paste0(x[1], x[2])})
   
-  return(sum(real_arcs %in% sol_arcs))
+  print(paste0("Number of real arcs: ", sum(real_arcs %in% sol_arcs)))
+  print(paste0("Total number of arcs: ", length(sol_arcs)))
 }
 
 a <- Sys.time()
@@ -62,5 +63,6 @@ res <- psoho::learn_dbn_structure_pso(dt, size, n_inds = 200, n_it = 10,
                                       in_cte = 0.8, gb_cte = 0.5, lb_cte = 0.5)
 eval_sol(struct, res)
 print(Sys.time() - a)
+print(bnlearn::score(res, dt, type = "bge"))
 ```
 
