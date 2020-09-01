@@ -54,15 +54,20 @@ eval_sol <- function(real, sol){
   real_arcs <- apply(real$arcs, 1, function(x){paste0(x[1], x[2])})
   sol_arcs <- apply(sol$arcs, 1, function(x){paste0(x[1], x[2])})
   
-  print(paste0("Number of real arcs: ", sum(real_arcs %in% sol_arcs)))
-  print(paste0("Total number of arcs: ", length(sol_arcs)))
+  print(paste0("Number of real arcs: ", length(real_arcs)))
+  print(paste0("Number of real arcs in solution: ", sum(real_arcs %in% sol_arcs)))
+  print(paste0("Total number of arcs in solution: ", length(sol_arcs)))
 }
 
 a <- Sys.time()
 res <- psoho::learn_dbn_structure_pso(dt, size, n_inds = 200, n_it = 10,
-                                      in_cte = 0.8, gb_cte = 0.5, lb_cte = 0.5)
+                                      in_cte = 0.8, gb_cte = 0.5, lb_cte = 0.5,
+                                      v_probs = c(10, 65, 25), r_probs = c(-0.5, 1.5))
 eval_sol(struct, res)
 print(Sys.time() - a)
 print(bnlearn::score(res, dt, type = "bge"))
 ```
 
+Getting the learned network to have only exactly the real arcs is very difficult because a network with only the 13 correct arcs has a fitness of -237364.7 and one with those 13 arcs and 8 additional ones has a fitness of -237409.6. Overall, those additional false positives are not too agravating and don't create a dense network, given that this network can have a maximum of 50 arcs. 
+
+With the strong constraints imposed to intra and inter-slice arcs, a network resulting from this learning algorithm can have $(s-1) * n^2$ maximum arcs, with $s$ being the size of the network and $n$ being the number of nodes. This means that the number of possible arcs scales cuadratically with the number of nodes and linearlly with the size of the network as a result of only allowing arcs to t_0.
