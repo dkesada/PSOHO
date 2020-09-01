@@ -12,17 +12,21 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
     #' @param in_cte parameter that varies the effect of the inertia
     #' @param gb_cte parameter that varies the effect of the global best
     #' @param lb_cte parameter that varies the effect of the local best
+    #' @param v_probs vector that defines the random velocity initialization probabilities
+    #' @param r_probs vector that defines the range of random variation of gb_cte and lb_cte
     #' @return A new 'PsoCtrl' object
-    initialize = function(ordering, size, n_inds, n_it, in_cte, gb_cte, lb_cte){
+    initialize = function(ordering, size, n_inds, n_it, in_cte, gb_cte, lb_cte,
+                          v_probs, r_probs){
       #initial_size_check(size) --ICO-Merge
       # Missing security checks --ICO-Merge
       
-      private$initialize_particles(ordering, size, n_inds)
+      private$initialize_particles(ordering, size, n_inds, v_probs)
       private$gb_scr <- -Inf
       private$n_it <- n_it
       private$in_cte <- in_cte
       private$gb_cte <- gb_cte
       private$lb_cte <- lb_cte
+      private$r_probs <- r_probs
     },
     
     #' @description 
@@ -46,7 +50,7 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
       for(i in 1:private$n_it){
         # Inside loop. Update each particle
         for(p in private$parts)
-          p$update_state(private$in_cte, private$gb_cte, private$gb_ps, private$lb_cte)
+          p$update_state(private$in_cte, private$gb_cte, private$gb_ps, private$lb_cte, private$r_probs)
         
         private$evaluate_particles(dt)
         utils::setTxtProgressBar(pb, i)
@@ -71,17 +75,20 @@ PsoCtrl <- R6::R6Class("PsoCtrl",
     gb_ps = NULL,
     #' @field b_scr global best score obtained
     gb_scr = NULL,
+    #' @field r_probs vector that defines the range of random variation of gb_cte and lb_cte
+    r_probs = NULL,
     
     #' @description 
     #' Initialize the particles for the algorithm to random positions and velocities.
     #' @param ordering a vector with the names of the nodes in t_0
     #' @param size number of timeslices of the DBN
     #' @param n_inds number of particles that the algorithm will simultaneously process
-    initialize_particles = function(ordering, size, n_inds){
+    #' @param v_probs vector that defines the random velocity initialization probabilities
+    initialize_particles = function(ordering, size, n_inds, v_probs){
       #private$parts <- parallel::parLapply(private$cl,1:n_inds, function(i){Particle$new(ordering, size)})
       private$parts <- vector(mode = "list", length = n_inds)
       for(i in 1:n_inds)
-        private$parts[[i]] <- Particle$new(ordering, size)
+        private$parts[[i]] <- Particle$new(ordering, size, v_probs)
     },
     
     #' @description 

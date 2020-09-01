@@ -12,12 +12,15 @@
 #' @return A 'dbn' object with the structure of the best network found
 #' @export
 learn_dbn_structure_pso <- function(dt, size, n_inds = 50, n_it = 50,
-                                    in_cte = 1, gb_cte = 0.5, lb_cte = 0.5){
+                                    in_cte = 1, gb_cte = 0.5, lb_cte = 0.5,
+                                    v_probs = c(10, 65, 25), 
+                                    r_probs = c(-0.5, 1.5)){
   #initial_size_check(size) --ICO-Merge
   #initial_df_check(dt) --ICO-Merge
   
   ordering <- names(dt)
-  ctrl <- PsoCtrl$new(ordering, size, n_inds, n_it, in_cte, gb_cte, lb_cte)
+  ctrl <- PsoCtrl$new(ordering, size, n_inds, n_it, in_cte, gb_cte, lb_cte,
+                      v_probs, r_probs)
   ctrl$run(dt)
   
   return(ctrl$get_best_network())

@@ -9,6 +9,16 @@
 \item{size}{number of timeslices of the DBN}
 
 \item{dt}{dataset to evaluate the fitness of the particle}
+
+\item{in_cte}{parameter that varies the effect of the inertia}
+
+\item{gb_cte}{parameter that varies the effect of the global best}
+
+\item{gb_ps}{position of the global best}
+
+\item{lb_cte}{parameter that varies the effect of the local best}
+
+\item{r_probs}{vector that defines the range of random variation of gb_cte and lb_cte}
 }
 \value{
 A new 'Particle' object
@@ -22,6 +32,11 @@ Evaluate the score of the particle's position
 
 Evaluate the score of the particle's position.
 Updates the local best if the new one is better.
+
+Update the position of the particle with the velocity
+
+Update the position of the particle given the constants after calculating
+the new velocity
 }
 \details{
 A particle has a Position, a Velocity and a local best

@@ -11,7 +11,9 @@ learn_dbn_structure_pso(
   n_it = 50,
   in_cte = 1,
   gb_cte = 0.5,
-  lb_cte = 0.5
+  lb_cte = 0.5,
+  v_probs = c(10, 65, 25),
+  r_probs = c(-0.5, 1.5)
 )
 }
 \arguments{

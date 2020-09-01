@@ -8,12 +8,12 @@ Particle <- R6::R6Class("Particle",
    #' @param ordering a vector with the names of the nodes in t_0
    #' @param size number of timeslices of the DBN
    #' @return A new 'Particle' object
-   initialize = function(ordering, size){
+   initialize = function(ordering, size, v_probs){
      #initial_size_check(size) --ICO-Merge
      
      private$ps <- Position$new(NULL, size, ordering)
      private$vl <- Velocity$new(private$ps$get_ordering(), size)
-     private$vl$randomize_velocity()
+     private$vl$randomize_velocity(v_probs)
      private$lb <- -Inf
    },
    
@@ -35,15 +35,25 @@ Particle <- R6::R6Class("Particle",
      return(score)
    },
    
-   update_state = function(in_cte, gb_cte, gb_ps, lb_cte){ # max_vl = 20
+   #' @description 
+   #' Update the position of the particle with the velocity
+   #' 
+   #' Update the position of the particle given the constants after calculating
+   #' the new velocity
+   #' @param in_cte parameter that varies the effect of the inertia
+   #' @param gb_cte parameter that varies the effect of the global best
+   #' @param gb_ps position of the global best
+   #' @param lb_cte parameter that varies the effect of the local best
+   #' @param r_probs vector that defines the range of random variation of gb_cte and lb_cte
+   update_state = function(in_cte, gb_cte, gb_ps, lb_cte, r_probs){ # max_vl = 20
       # 1.- Inertia of previous velocity
       private$vl$cte_times_velocity(in_cte)
       # 2.- Velocity from global best
-      op1 <- gb_cte * runif(1, -0.5, 1.5)
+      op1 <- gb_cte * runif(1, r_probs[1], r_probs[2])
       vl1 <- gb_ps$subtract_position(private$ps)
       vl1$cte_times_velocity(op1)
       # 3.- Velocity from local best
-      op2 <- lb_cte * runif(1, -0.5, 1.5)
+      op2 <- lb_cte * runif(1, r_probs[1], r_probs[2])
       vl2 <- private$lb_ps$subtract_position(private$ps)
       vl2$cte_times_velocity(op2)
       # 4.- New velocity

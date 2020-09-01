@@ -12,11 +12,15 @@
 
 \item{lb_cte}{parameter that varies the effect of the local best}
 
+\item{r_probs}{vector that defines the range of random variation of gb_cte and lb_cte}
+
 \item{ordering}{a vector with the names of the nodes in t_0}
 
 \item{size}{number of timeslices of the DBN}
 
 \item{n_inds}{number of particles that the algorithm will simultaneously process}
+
+\item{v_probs}{vector that defines the random velocity initialization probabilities}
 
 \item{dt}{the dataset used to evaluate the position}
 }
@@ -61,5 +65,7 @@ The controller will encapsulate the particles and run the algorithm
 \item{\code{b_ps}}{global best position found}
 
 \item{\code{b_scr}}{global best score obtained}
+
+\item{\code{r_probs}}{vector that defines the range of random variation of gb_cte and lb_cte}
 }}
 
