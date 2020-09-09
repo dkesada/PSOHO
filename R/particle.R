@@ -73,7 +73,7 @@ Particle <- R6::R6Class("Particle",
    
    get_lb = function(){return(private$lb)},
    
-   get_lb_ps = function(){return(private$lb)}
+   get_lb_ps = function(){return(private$lb_ps)}
  ),
  
  private = list(

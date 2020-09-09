@@ -15,8 +15,9 @@ library(data.table)
 ordering <- c("A", "B", "C", "D", "E")
 size <- 3
 
-set.seed(4242)
-ps <- Position$new(NULL, size, ordering)
+set.seed(42)
+
+struct <- bnlearn::model2network("[A_t_2][B_t_2][C_t_2][D_t_2][E_t_2][A_t_1][B_t_1][C_t_1][D_t_1][E_t_1][A_t_0|C_t_2:B_t_1][B_t_0|C_t_2:E_t_2:A_t_1][C_t_0|B_t_1:C_t_1][D_t_0|A_t_2:D_t_1][E_t_0|D_t_2:A_t_1:C_t_1:D_t_1]")
 
 dt = data.table(A_t_2 = rnorm(10000, 2.9, 2.7),
                B_t_2 = rnorm(10000, 1.2, 0.3),
@@ -40,13 +41,11 @@ dt[, C_t_0 := C_t_0 + 1.3 * C_t_1 + -(0.3) * B_t_1]
 dt[, D_t_0 := D_t_0 + 0.37 * A_t_2 + 1.1 * D_t_1]
 dt[, E_t_0 := E_t_0 + 0.21 * D_t_2 + 0.63 * A_t_1 + (-0.7) * C_t_1 + 0.2 * D_t_1]
 
-struct <- ps$bn_translate()
-
 print(bnlearn::score(struct, dt, type = "bge"))
 
 ```
 
-A network representing the real structure that generated the data obtains a bge score of -23.7k, while randomly generated networks get bge values around the -27k mark.
+A network representing the real structure that generated the data obtains a bge score of -237k, while randomly generated networks get bge values around the -27k mark.
 
 ```{r psoho}
 
@@ -68,6 +67,6 @@ print(Sys.time() - a)
 print(bnlearn::score(res, dt, type = "bge"))
 ```
 
-Getting the learned network to have only exactly the real arcs is very difficult because a network with only the 13 correct arcs has a fitness of -237364.7 and one with those 13 arcs and 8 additional ones has a fitness of -237409.6. Overall, those additional false positives are not too agravating and don't create a dense network, given that this network can have a maximum of 50 arcs. 
+Getting the learned network to have only exactly the real arcs is very difficult because a network with only the 13 correct arcs has a fitness of -237911.3 and one with those 13 arcs and 7 additional ones has a fitness of -237951. Overall, those additional false positives are not too agravating and don't create a dense network, given that this network can have a maximum of 50 arcs. 
 
 With the strong constraints imposed to intra and inter-slice arcs, a network resulting from this learning algorithm can have $(s-1) * n^2$ maximum arcs, with $s$ being the size of the network and $n$ being the number of nodes. This means that the number of possible arcs scales cuadratically with the number of nodes and linearlly with the size of the network as a result of only allowing arcs to t_0.
