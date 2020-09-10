@@ -12,6 +12,7 @@ using namespace Rcpp;
 
 int find_index(std::string node);
 Rcpp::StringVector rename_nodes_cpp(Rcpp::StringVector &nodes, unsigned int size);
+int find_index(std::string node);
 Rcpp::StringVector rename_slices(const Rcpp::StringVector &nodes, unsigned int slice);
 Rcpp::List random_directions(const Rcpp::NumericVector &probs, unsigned int size);
 int add_dirs(int d1, int d2, int &n_arcs);
