@@ -15,7 +15,7 @@ This package implements the particle swarm optimization structure learning algor
 
 On a personal note, this repository will also serve me as a first serious approach to PSO and to R6 objects, both of which I've been meaning to invest some time in for a while now. 
 
-Now that the implementation of the algorithm is finished, all that's left is to perform some more tests, write some examples, polish the docs and include it in 'dbnR'. The final performance is quite good, and I gained some valuable insights on R6 objects and parallelization in R and C++.
+Now that the implementation of the algorithm is finished and it has been included in the ‘dbnR’ package, further development in this repository will be halted. The final performance is quite good, and I gained some valuable insights on R6 objects and parallelization in R and C++. It also offers an alternative to the classic DMMHC structure learning algorithm.
 
 ## Some conclusions
 
