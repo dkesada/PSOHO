@@ -7,12 +7,8 @@
 //' @return a velocity list with randomized values
 // [[Rcpp::export]]
 Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs) {
-  Rcpp::List slice;
-  Rcpp::List velocity;
-  Rcpp::List directions;
-  Rcpp::List cu;
-  Rcpp::List pair;
-  unsigned int abs_op = 0;
+  Rcpp::List slice, velocity, directions, cu, pair;
+  unsigned int abs_op = 0, dir_tmp;
   Rcpp::List res (2);
   
   // Initialization of the velocity
@@ -22,7 +18,8 @@ Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs) {
       pair = slice[j];
       directions = random_directions(probs, slice.size());
       pair[1] = directions[0];
-      abs_op += directions[1];
+      dir_tmp = directions[1]; // Error on some systems with abs_op += directions[1];
+      abs_op += dir_tmp;
     }
   }
   
@@ -40,18 +37,8 @@ Rcpp::List randomize_vl_cpp(Rcpp::List &vl, NumericVector &probs) {
 //' @return a list with the Velocity's causal list and the number of operations
 // [[Rcpp::export]]
 Rcpp::List pos_minus_pos_cpp(Rcpp::List &cl, Rcpp::List &ps, Rcpp::List &vl){
-  Rcpp::List slice_cl;
-  Rcpp::List slice_ps;
-  Rcpp::List slice_vl;
-  Rcpp::List cu_cl;
-  Rcpp::List cu_ps;
-  Rcpp::List cu_vl;
-  Rcpp::List pair_cl;
-  Rcpp::List pair_ps;
-  Rcpp::List pair_vl;
-  Rcpp::NumericVector dirs_cl;
-  Rcpp::NumericVector dirs_ps;
-  Rcpp::NumericVector dirs_vl;
+  Rcpp::List slice_cl, slice_ps, slice_vl, cu_cl, cu_ps, cu_vl, pair_cl, pair_ps, pair_vl;
+  Rcpp::NumericVector dirs_cl, dirs_ps, dirs_vl;
   int n_abs = 0;
   Rcpp::List res (2);
   
@@ -89,14 +76,8 @@ Rcpp::List pos_minus_pos_cpp(Rcpp::List &cl, Rcpp::List &ps, Rcpp::List &vl){
 //' @return a list with the Velocity's causal list and the number of operations
 // [[Rcpp::export]]
 Rcpp::List vel_plus_vel_cpp(Rcpp::List &vl1, Rcpp::List &vl2, int abs_op){
-  Rcpp::List slice_vl1;
-  Rcpp::List slice_vl2;
-  Rcpp::List cu_vl1;
-  Rcpp::List cu_vl2;
-  Rcpp::List pair_vl1;
-  Rcpp::List pair_vl2;
-  Rcpp::NumericVector dirs_vl1;
-  Rcpp::NumericVector dirs_vl2;
+  Rcpp::List slice_vl1, slice_vl2, cu_vl1, cu_vl2, pair_vl1, pair_vl2;
+  Rcpp::NumericVector dirs_vl1, dirs_vl2;
   Rcpp::List res (2);
   
   for(unsigned int i = 0; i < vl1.size(); i++){
@@ -133,12 +114,9 @@ Rcpp::List vel_plus_vel_cpp(Rcpp::List &vl1, Rcpp::List &vl2, int abs_op){
 // [[Rcpp::export]]
 Rcpp::List cte_times_vel_cpp(float k, Rcpp::List &vl, unsigned int abs_op, int max_op){
   Rcpp::List res (2);
-  int n_op;
-  Rcpp::List pool;
-  Rcpp::List n_pool;
-  int idx;
+  int n_op, idx, cmp;
+  Rcpp::List pool, n_pool;
   int l_pool = abs_op;
-  int cmp;
   Rcpp::NumericVector pos;
   bool invert = false;
   NumericVector tmp;
@@ -165,13 +143,13 @@ Rcpp::List cte_times_vel_cpp(float k, Rcpp::List &vl, unsigned int abs_op, int m
   
   if(n_op < 0){ // Convert {0} into {1,-1}
     l_pool = max_op - abs_op; // Number of 0's remaining
-    n_op = abs(n_op);
+    n_op = std::abs(n_op);
     pool = Rcpp::List(l_pool);
     cmp = 0;
   } 
   
   else{ // Convert {1,-1} into {0}
-    n_op = abs(n_op);
+    n_op = std::abs(n_op);
     pool = Rcpp::List(l_pool);
     cmp = 1;
   }

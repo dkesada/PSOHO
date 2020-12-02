@@ -10,9 +10,8 @@
 // [[Rcpp::export]]
 Rcpp::List create_causlist_cpp(Rcpp::List &cl, Rcpp::List &net, unsigned int size, StringVector &ordering) {
   Rcpp::List aux;
-  Rcpp::StringVector caus_unit;
+  Rcpp::StringVector caus_unit, parents;
   std::string node;
-  Rcpp::StringVector parents;
     
   // Translation into causal list
   for(unsigned int i = 0; i < ordering.size(); i++){
@@ -40,8 +39,7 @@ Rcpp::CharacterMatrix cl_to_arc_matrix_cpp(Rcpp::List &cl, Rcpp::CharacterVector
                                            unsigned int rows){
   Rcpp::StringMatrix res (rows, 2);
   unsigned int res_row = 0;
-  Rcpp::List slice;
-  Rcpp::List cu;
+  Rcpp::List slice, cu;
   Rcpp::StringVector nodes;
   Rcpp::NumericVector arcs;
   
@@ -72,14 +70,8 @@ Rcpp::CharacterMatrix cl_to_arc_matrix_cpp(Rcpp::List &cl, Rcpp::CharacterVector
 //' @return a list with the modified position and the new number of arcs
 // [[Rcpp::export]]
 Rcpp::List pos_plus_vel_cpp(Rcpp::List &cl, Rcpp::List &vl, int n_arcs){
-  Rcpp::List slice_cl;
-  Rcpp::List slice_vl;
-  Rcpp::List cu_cl;
-  Rcpp::List cu_vl;
-  Rcpp::List pair_cl;
-  Rcpp::List pair_vl;
-  Rcpp::NumericVector dirs_cl;
-  Rcpp::NumericVector dirs_vl;
+  Rcpp::List slice_cl, slice_vl, cu_cl, cu_vl, pair_cl, pair_vl;
+  Rcpp::NumericVector dirs_cl, dirs_vl;
   Rcpp::List res (2);
   
   for(unsigned int i = 0; i < cl.size(); i++){
